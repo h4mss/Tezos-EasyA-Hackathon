@@ -1,5 +1,5 @@
 import NavBar from "../components/NavBar.js";
-import Picker from "../components/Picker.js";
+// import Picker from "../components/Picker.js";
 import colors from "../constants/colors";
 import fonts from "../constants/fonts";
 
