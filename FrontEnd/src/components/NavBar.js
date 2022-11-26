@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import colors from "../constants/colors";
+import { ArrowBarRight } from "react-bootstrap-icons";
+import { NavContext } from "../context";
 
 export default function NavBar({ pageTitle, balance, wallet }) {
+  const { setScreenName } = useContext(NavContext);
   return (
     <div style={styles.container}>
       <div>
@@ -11,14 +14,17 @@ export default function NavBar({ pageTitle, balance, wallet }) {
         <text style={{ marginLeft: 12 }}>{pageTitle}</text>
       </div>
       {wallet ? (
-        <div style={styles.wallet}>
-          <text style={{ color: colors.white }}>{wallet}</text>
-          <div style={{ flexDirection: "row", display: "flex", marginLeft: 50, alignItems: "center" }}>
-            <text style={{ color: colors.white }}>Balance:</text>
-            <div style={styles.balance}>
-              <text style={{ color: colors.main }}>{balance}</text>
+        <div style={{ flexDirection: "row", display: "flex", alignItems: "center" }}>
+          <div style={styles.wallet}>
+            <text style={{ color: colors.white }}>{wallet}</text>
+            <div style={{ flexDirection: "row", display: "flex", marginLeft: 50, alignItems: "center" }}>
+              <text style={{ color: colors.white }}>Balance:</text>
+              <div style={styles.balance}>
+                <text style={{ color: colors.main }}>{balance}</text>
+              </div>
             </div>
           </div>
+          <ArrowBarRight color={colors.main} size={25} onClick={() => setScreenName("Main")} />
         </div>
       ) : null}
     </div>
@@ -49,6 +55,7 @@ const styles = {
     borderRadius: 5,
     paddingLeft: 10,
     paddingRight: 10,
+    marginRight: 10,
   },
   balance: {
     backgroundColor: colors.white,

@@ -9,8 +9,8 @@ function App() {
   const [screenName, setScreenName] = useState("Main");
   return (
     <NavContext.Provider value={{ screenName, setScreenName }}>
-      {screenName == "Main" ? <MainScreen /> : null}
-      {screenName == "Project" ? <ProjectsScreen /> : null}
+      {screenName === "Main" ? <MainScreen /> : null}
+      {screenName === "Project" ? <ProjectsScreen /> : null}
     </NavContext.Provider>
   );
 }

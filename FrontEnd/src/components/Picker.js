@@ -8,7 +8,7 @@ import { NavContext } from "../context";
 export default function Picker({ screen = "2" }) {
   const { setScreenName } = useContext(NavContext);
   const handleClick = () => {
-    setScreenName("Client");
+    setScreenName("Project");
     // window.open("../screens/ProjectsScreen.tsx");
   };
   return (
