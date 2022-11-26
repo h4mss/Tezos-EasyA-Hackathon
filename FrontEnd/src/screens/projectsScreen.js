@@ -3,8 +3,7 @@ import NavBar from "../components/NavBar.js";
 import colors from "../constants/colors";
 import fonts from "../constants/fonts";
 
-export default function ClientScreen() {
-  console.log("ClientScreen");
+export default function ProjectsScreen() {
   return (
     <div
       className="App"
@@ -17,7 +16,7 @@ export default function ClientScreen() {
         flex: 1,
       }}
     >
-      <NavBar pageTitle={"Client"} balance={2} wallet={"0xnfjrn....447"} />
+      <NavBar pageTitle={"Projects"} balance={2} wallet={"0xnfjrn....447"} />
 
       <div
         style={{

@@ -1,23 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import colors from "../constants/colors";
-import { useContext } from "react";
-import { NavContext } from "../context";
 import fonts from "../constants/fonts";
+import { NavContext } from "../context";
 // import { Navigate } from "react-router-dom";
 
 export default function Picker({ screen = "2" }) {
   const { setScreenName } = useContext(NavContext);
   const handleClick = () => {
     setScreenName("Client");
-    // window.open("../screens/ClientScreen.tsx");
-    console.log(screen);
+    // window.open("../screens/ProjectsScreen.tsx");
   };
   return (
     <ListGroup as="ul">
       <ListGroup.Item style={styles.card} action onClick={handleClick}>
         {/* <text style={{ fontWeight: fonts.Bold, color: colors.main }}>Client</text> */}
-        {/* <Link to={{ pathname: "../screens/ClientScreen.tsx" }}>NavigateNow</Link> */}
+        {/* <Link to={{ pathname: "../screens/ProjectsScreen.tsx" }}>NavigateNow</Link> */}
       </ListGroup.Item>
       <ListGroup.Item style={styles.card} action onClick={handleClick}>
         <text style={{ fontWeight: fonts.Bold, color: colors.main }}>Freelancer</text>
