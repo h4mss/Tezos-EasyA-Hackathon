@@ -1,7 +1,6 @@
 import React from "react";
 import colors from "../constants/colors";
-
-export default function NavBar({ pageTitle, balance, wallet = false }) {
+export default function NavBar({ pageTitle = "Page title", balance = 0, wallet = false }) {
   // const { setScreenName } = useContext(NavContext);
   return (
     <div style={styles.container}>
