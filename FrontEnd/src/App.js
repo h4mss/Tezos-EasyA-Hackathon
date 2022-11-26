@@ -6,6 +6,7 @@ import "./App.css";
 import NavBar from "./components/NavBar.js";
 import colors from "./constants/colors";
 import { NavContext } from "./context";
+import CreateProjectScreen from "./screens/CreateProjectScreen.tsx";
 import MainScreen from "./screens/MainScreen.js";
 import ProjectScreen from "./screens/ProjectScreen.js";
 import ProjectsScreen from "./screens/ProjectsScreen.js";
@@ -94,6 +95,7 @@ function App() {
         {screenName === "Main" ? <MainScreen handleLogin={handleLogin} /> : null}
         {screenName === "Projects" ? <ProjectsScreen /> : null}
         {screenName === "Project" ? <ProjectScreen /> : null}
+        {screenName === "Create" ? <CreateProjectScreen /> : null}
       </NavContext.Provider>
     </div>
   );
