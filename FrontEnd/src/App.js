@@ -2,53 +2,23 @@ import logo from "./logo.svg";
 
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import { NavContext } from "../src/context";
+import { useState } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import colors from "./constants/colors";
 import NavBar from "./components/NavBar.js";
 import fonts from "./constants/fonts";
 import Picker from "./components/Picker.js";
 import ClientScreen from "./screens/ClientScreen.js";
+import MainScreen from "./screens/MainScreen.js";
 
 function App() {
+  const [screenName, setScreenName] = useState("Main");
   return (
-    <div
-      className="App"
-      style={{
-        backgroundColor: colors.background,
-        justifyContent: "flex-start",
-        alignItems: "center",
-        display: "flex",
-
-        flex: 1,
-      }}
-    >
-      <NavBar />
-
-      <div
-        className="body"
-        style={{
-          padding: 20,
-          flex: 1,
-          flexDirection: "row",
-          display: "flex",
-
-          justifyContent: "space-around",
-          alignItems: "center",
-          width: "100%",
-        }}
-      >
-        <text style={{ fontSize: 45, fontWeight: fonts.Regular }}>
-          Welcome.
-          <br />
-          Choose who to log in as:
-        </text>
-        <div>
-          <Picker />
-        </div>
-      </div>
-    </div>
-    // <ClientScreen />
+    <NavContext.Provider value={{ screenName, setScreenName }}>
+      {screenName == "Main" ? <MainScreen /> : null}
+      {screenName == "Client" ? <ClientScreen /> : null}
+    </NavContext.Provider>
   );
 }
 
