@@ -6,22 +6,22 @@ import { NavContext } from "../context";
 // import { Navigate } from "react-router-dom";
 
 export default function Picker({ screen = "2" }) {
-  const { setScreenName } = useContext(NavContext);
-  const handleClick = () => {
-    setScreenName("Project");
+  const { setScreenName, setUser } = useContext(NavContext);
+  const handleClick = (entity) => {
+    setScreenName("Projects");
+    setUser(entity);
     // window.open("../screens/ProjectsScreen.tsx");
   };
   return (
     <ListGroup as="ul">
-      <ListGroup.Item style={styles.card} action onClick={handleClick}>
-        {/* <text style={{ fontWeight: fonts.Bold, color: colors.main }}>Client</text> */}
-        {/* <Link to={{ pathname: "../screens/ProjectsScreen.tsx" }}>NavigateNow</Link> */}
+      <ListGroup.Item style={styles.card} action onClick={() => handleClick("Client")}>
+        <text style={{ fontWeight: fonts.Bold, color: colors.main }}>Client</text>
       </ListGroup.Item>
-      <ListGroup.Item style={styles.card} action onClick={handleClick}>
+      <ListGroup.Item style={styles.card} action onClick={() => handleClick("Freelancer")}>
         <p style={{ fontWeight: fonts.Bold, color: colors.main }}>Freelancer</p>
       </ListGroup.Item>
 
-      <ListGroup.Item style={styles.card} action onClick={handleClick}>
+      <ListGroup.Item style={styles.card} action onClick={() => handleClick("Client")}>
         <p style={{ fontWeight: fonts.Bold, color: colors.main }}>Rewiever</p>
       </ListGroup.Item>
     </ListGroup>
