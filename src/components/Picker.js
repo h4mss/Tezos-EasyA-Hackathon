@@ -6,7 +6,7 @@ import fonts from "../constants/fonts";
 
 export default function Picker({ screen = "2" }) {
   const handleClick = () => {
-    // window.open("../screens/ClientScreen.tsx");
+    window.open("../screens/ClientScreen.tsx");
     console.log(screen);
   };
   return (
