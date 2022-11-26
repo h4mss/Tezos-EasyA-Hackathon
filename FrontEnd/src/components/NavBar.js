@@ -27,7 +27,8 @@ export default function NavBar({ pageTitle, balance, wallet }) {
 const styles = {
   container: {
     width: "80%",
-    // height: 50,
+    height: 45,
+
     paddingTop: 5,
     paddingBottom: 5,
     borderRadius: 5,
