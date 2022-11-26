@@ -1,0 +1,8 @@
+/.vscode
+/node_modules
+
+# Logs
+*.log
+
+# MacOS-Related
+.DS_Store
