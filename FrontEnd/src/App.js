@@ -23,9 +23,9 @@ function App() {
     >
       <NavBar pageTitle={"Projects"} balance={2} wallet={"0xnfjrn....447"} />
       <NavContext.Provider value={{ screenName, setScreenName, user, setUser }}>
-        {screenName == "Main" ? <MainScreen /> : null}
-        {screenName == "Projects" ? <ProjectsScreen /> : null}
-        {screenName == "Project" ? <ProjectScreen /> : null}
+        {screenName === "Main" ? <MainScreen /> : null}
+        {screenName === "Projects" ? <ProjectsScreen /> : null}
+        {screenName === "Project" ? <ProjectScreen /> : null}
       </NavContext.Provider>
     </div>
   );

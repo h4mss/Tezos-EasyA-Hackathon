@@ -1,10 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import colors from "../constants/colors";
-import { ArrowBarRight } from "react-bootstrap-icons";
-import { NavContext } from "../context";
 
-export default function NavBar({ pageTitle, balance, wallet }) {
-  const { setScreenName } = useContext(NavContext);
+export default function NavBar({ pageTitle, balance, wallet = false }) {
+  // const { setScreenName } = useContext(NavContext);
   return (
     <div style={styles.container}>
       <div>
@@ -24,7 +22,7 @@ export default function NavBar({ pageTitle, balance, wallet }) {
               </div>
             </div>
           </div>
-          <ArrowBarRight color={colors.main} size={25} onClick={() => setScreenName("Main")} />
+          {/* <ArrowBarRight color={colors.main} size={25} onClick={() => setScreenName("Main")} /> */}
         </div>
       ) : null}
     </div>
