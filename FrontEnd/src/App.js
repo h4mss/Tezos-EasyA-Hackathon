@@ -11,10 +11,6 @@ import Picker from "./components/Picker.js";
 import ClientScreen from "./screens/ClientScreen.js";
 
 function App() {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {screen: "Main"}
-  // }
   return (
     <div
       className="App"
