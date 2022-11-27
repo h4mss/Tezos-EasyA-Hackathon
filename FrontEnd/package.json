@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@taquito/beacon-wallet": "^14.1.0",
+    "@taquito/signer": "^14.1.0",
     "@taquito/taquito": "^14.1.0",
     "@taquito/tezbridge-wallet": "^14.1.0",
     "@testing-library/jest-dom": "^5.16.5",

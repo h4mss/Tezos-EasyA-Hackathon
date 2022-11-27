@@ -14,11 +14,11 @@ export default function MainScreen({ handleLogin }) {
         width: "100%",
       }}
     >
-      <text style={{ fontSize: 45, fontWeight: fonts.Regular }}>
+      <p style={{ fontSize: 45, fontWeight: fonts.Regular }}>
         Welcome.
         <br />
         Choose whom to log in as:
-      </text>
+      </p>
       <div>
         <Picker handleLogin={handleLogin} />
       </div>

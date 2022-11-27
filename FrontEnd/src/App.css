@@ -18,7 +18,9 @@ body {
   flex-direction: row;
   display: flex;
 }
-
+.progress {
+  --bs-progress-bar-bg: #7749f8;
+}
 .App-logo {
   /* height: 40vmin;
   pointer-events: none; */

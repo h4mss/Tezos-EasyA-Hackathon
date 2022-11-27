@@ -1,20 +1,22 @@
 import React from "react";
-import Button from "react-bootstrap/Button";
-import colors from "../constants/colors";
 import { ArrowBarRight } from "react-bootstrap-icons";
+import colors from "../constants/colors";
 
 export default function NavBar({ user, isLoggedIn, handleLogin, setBalanceModalVisible, handleLogout }) {
   return (
     <div style={styles.container}>
-      <div>
-        <a style={{ fontWeight: 800, marginLeft: 50, textDecoration: "none", color: colors.black }} href="../App.js">
+      <div style={{ flexDirection: "row", display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <div style={styles.logo}>
+          <text style={{ fontWeight: "bold", lineHeight: 1, color: colors.white }}>U</text>
+        </div>
+        <a style={{ fontWeight: 800, marginLeft: 5, textDecoration: "none", color: colors.black }} href="../App.js">
           Unbia5
         </a>
         <text style={{ marginLeft: 12 }}>{user.type}</text>
       </div>
       {isLoggedIn ? (
-        <div onClick={() => setBalanceModalVisible(true)} style={{ flexDirection: "row", display: "flex", alignItems: "center" }}>
-          <div style={styles.wallet}>
+        <div style={{ flexDirection: "row", display: "flex", alignItems: "center" }}>
+          <div style={styles.wallet} onClick={() => setBalanceModalVisible(true)}>
             <text style={{ color: colors.white }}>{user.wallet.address}</text>
             <div style={{ flexDirection: "row", display: "flex", marginLeft: 50, alignItems: "center" }}>
               <text style={{ color: colors.white }}>Balance:</text>
@@ -23,12 +25,12 @@ export default function NavBar({ user, isLoggedIn, handleLogin, setBalanceModalV
               </div>
             </div>
           </div>
-          <ArrowBarRight color={colors.main} size={25} onClick={handleLogout} />
+          <div onClick={handleLogout}>
+            <ArrowBarRight color={colors.main} size={25} />
+          </div>
         </div>
       ) : (
-        <Button style={{ backgroundColor: colors.main, borderWidth: 0 }} onClick={handleLogin}>
-          Log in
-        </Button>
+        <></>
       )}
     </div>
   );
@@ -48,6 +50,17 @@ const styles = {
     display: "flex",
     marginTop: 30,
     paddingRight: 5,
+  },
+  logo: {
+    backgroundColor: colors.main,
+    borderRadius: 7,
+    justifyContent: "center",
+    alignItems: "center",
+    display: "flex",
+    padding: 5,
+    marginLeft: 10,
+    paddingRight: 7,
+    paddingLeft: 7,
   },
   wallet: {
     backgroundColor: colors.main,

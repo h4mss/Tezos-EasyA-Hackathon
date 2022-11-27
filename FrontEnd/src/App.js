@@ -1,4 +1,5 @@
 import { BeaconWallet } from "@taquito/beacon-wallet";
+import { InMemorySigner } from "@taquito/signer";
 import { TezosToolkit } from "@taquito/taquito";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
@@ -13,7 +14,7 @@ import ProjectsScreen from "./screens/ProjectsScreen.js";
 
 function App() {
   const [screenName, setScreenName] = useState("Main");
-  const contractAddress = "KT1Hk4J1X5Q4Z1Q1X5Q4Z1Q1X5Q4Z1Q1X5Q4Z1Q1X5Q4Z";
+  const contractAddress = "KT1C8BMZyVzccaasnDdQhn66VP6zJnm4HHhf";
   const [contract, setContract] = useState(null);
   const [user, setUser] = useState({
     type: null,
@@ -26,18 +27,18 @@ function App() {
   const [balanceModalVisible, setBalanceModalVisible] = useState(false);
   const taquito = new TezosToolkit("https://ghostnet.tezos.marigold.dev/");
 
-  // handle get contract info
-  const handleGetContractInfo = async () => {
+  const getContractStorage = async (contractAddress) => {
     const contract = await taquito.contract.at(contractAddress);
     const storage = await contract.storage();
     console.log(storage);
+    return storage;
   };
 
-  // get contract
-  const getContract = async () => {
+  const getContract = async (contractAddress) => {
     const contract = await taquito.contract.at(contractAddress);
-    console.log(contract);
     setContract(contract);
+    console.log(contract);
+    return contract;
   };
 
   // handle login with tezos wallet
@@ -71,6 +72,7 @@ function App() {
         },
       },
     };
+    taquito.setProvider({ signer: await InMemorySigner.fromSecretKey("edskRx5k2PVyGgnKj1U1uoBkSoKxtrXBwr4cNLPvLaaSoiVji4F4QMmFSuS7LxukAqYVCbxeFTg6goA5o4Yu35zxGJE2jgPJi7") });
     const wallet = new BeaconWallet(options);
     if (wallet.client) {
       taquito.setWalletProvider(wallet);
@@ -88,6 +90,9 @@ function App() {
 
         setIsLoggedIn(true);
         setScreenName("Projects");
+
+        // get contract
+        await addUserToContract(asType, contractAddress, accountPkh);
       } else {
         await wallet.requestPermissions({
           network: {
@@ -97,6 +102,26 @@ function App() {
       }
     }
   };
+  // handle add client to contract
+  const addUserToContract = async (type, contractAddress, userAddress) => {
+    try {
+      const contract = await getContract(contractAddress);
+      let op = null;
+      if (type === "Client") {
+        op = await contract.methods.addClient(userAddress).send();
+      } else if (type === "Freelancer") {
+        op = await contract.methods.addFreelancer(userAddress).send();
+      } else if (type === "Reviewer") {
+        op = await contract.methods.addReviewer(userAddress).send();
+      }
+      await op.confirmation();
+      console.log("user added to contract", op.hash);
+      console.log("Operation injected: https://better-call.dev/ghostnet/" + op.hash);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // handle logout
   const handleLogout = () => {
     setUser({
@@ -109,8 +134,8 @@ function App() {
     setIsLoggedIn(false);
     setScreenName("Main");
   };
-  // handle join project
-  const handleJoinProject = async () => {
+
+  const joinProject = async () => {
     const contract = await taquito.wallet.at(contractAddress);
     const op = await contract.methods.join().send();
     await op.confirmation();
@@ -124,17 +149,18 @@ function App() {
     });
     setScreenName("Projects");
   };
-  // handle create project
-  const handleCreateProject = async (projectName, projectDescription) => {
-    const contract = await taquito.wallet.at("KT1Hg8v3P4GFgXB4bpu6hCsGKvFCvV5rPfHd");
-    const op = await contract.methods.create(projectName, projectDescription).send();
+
+  const createProject = async () => {
+    const id = Math.floor(Math.random() * 10000) + 1;
+    const contract = await getContract(contractAddress);
+    const op = await contract.methods.createJob(1, { client: user.wallet.address }).send();
     await op.confirmation();
     setScreenName("Projects");
   };
-  // handle review project
-  const handleReviewProject = async (review) => {
+
+  const reviewProject = async (id) => {
     const contract = await taquito.wallet.at(contractAddress);
-    const op = await contract.methods.review(review).send();
+    const op = await contract.methods.reviewJob(id).send();
     await op.confirmation();
     setScreenName("Projects");
   };
@@ -169,8 +195,8 @@ function App() {
         <NavContext.Provider value={{ screenName, setScreenName, user, setUser }}>
           {screenName === "Main" ? <MainScreen handleLogin={handleLogin} /> : null}
           {screenName === "Projects" ? <ProjectsScreen /> : null}
-          {screenName === "Project" ? <ProjectScreen /> : null}
-          {screenName === "Create" ? <CreateProjectScreen /> : null}
+          {screenName === "Project" ? <ProjectScreen reviewProject={reviewProject} /> : null}
+          {screenName === "Create" ? <CreateProjectScreen createProject={createProject} /> : null}
         </NavContext.Provider>
       </div>
     </>

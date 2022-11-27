@@ -31,5 +31,6 @@ const styles = {
     alignItems: "center",
     fontWidth: fonts.Bold,
     justifyContent: "center",
+    display: "flex",
   },
 };

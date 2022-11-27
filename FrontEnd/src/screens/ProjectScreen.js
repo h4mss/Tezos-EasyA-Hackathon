@@ -3,39 +3,49 @@
 import colors from "../constants/colors";
 import fonts from "../constants/fonts";
 
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { CloudDownload } from "react-bootstrap-icons";
+import Badge from "react-bootstrap/Badge";
+import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 import ProgressBar from "react-bootstrap/ProgressBar";
 
 import { NavContext } from "../context";
-export default function ProjectScreen({ title = "This is the project title", subtitle = "Subtitle", text = "No description", style }) {
+export default function ProjectScreen({ reviewProject, title = "This is the project title", subtitle = "Subtitle", text = "No description", style }) {
   const { user } = useContext(NavContext);
   const [isReviewing, setIsReviewing] = useState(false);
-  const [isInReview, setIsInReview] = useState(false);
+  const [isInReview, setIsInReview] = useState(true);
+  const [isReviewComplete, setIsReviewComplete] = useState(true);
+  const approved = 9;
+  const disapproved = 2;
 
-  const handleClick = () => {
-    console.log("hui");
+  const handleBtnClick = (approve) => {
+    if (isReviewing) {
+      console.log(approve);
+    } else {
+      setIsReviewing(true);
+    }
   };
-  const handleBtnClick = () => {
-    setIsReviewing(true);
+  const handleReview = async (id) => {
+    setIsReviewing(false);
+    await reviewProject(id);
   };
   const ReviewBtn = () => {
     if (user.type === "Reviewer") {
       if (isReviewing) {
         return (
           <div style={{ flexDirection: "row", display: "flex" }}>
-            <button style={{ ...styles.mainBtn, ...{ marginRight: 15 } }} onClick={handleBtnClick}>
+            <button style={{ ...styles.mainBtn, ...{ marginRight: 15 } }} onClick={() => handleBtnClick(true)}>
               <p style={styles.btnText}>Job complete</p>
             </button>
-            <button style={{ ...styles.mainBtn, ...{ backgroundColor: colors.darkGrey } }} onClick={handleBtnClick}>
+            <button style={{ ...styles.mainBtn, ...{ backgroundColor: colors.darkGrey } }} onClick={() => handleReview("id")}>
               <p style={styles.btnText}>Jop incomplete</p>
             </button>
           </div>
         );
       } else {
         return (
-          <button style={styles.mainBtn} onClick={handleBtnClick}>
+          <button onClick={() => handleReview("id")} style={styles.mainBtn}>
             <p style={styles.btnText}>Review</p>
           </button>
         );
@@ -45,14 +55,46 @@ export default function ProjectScreen({ title = "This is the project title", sub
     }
   };
   const ReviewBar = () => {
-    if (isInReview) {
-      <div style={{ width: "100%", marginTop: 40 }}>
-        <div style={{ display: "flex", flexDirecion: "row", justifyContent: "space-between", alignItems: "center" }}>
-          <h1 style={{ fontWeight: "bold" }}>The projects is in review</h1>
-          <h4>10 / 25 reviews</h4>
+    if (isReviewComplete) {
+      return (
+        <div style={{ width: "100%", marginTop: 40 }}>
+          <div style={{ display: "flex", flexDirecion: "row", justifyContent: "space-between", alignItems: "center" }}>
+            <h1 style={{ fontWeight: "bold" }}>
+              According to the review,<br></br> the project is <span style={{ color: colors.main }}>complete</span>.
+            </h1>
+            <div>
+              <Button style={{ backgroundColor: colors.main, borderWidth: 0, fontWeight: "bold" }}>
+                Approved
+                <Badge bg="light" style={{ backgroundColor: colors.white, marginLeft: 5 }}>
+                  <span style={{ color: colors.black }}>{approved}</span>
+                </Badge>
+              </Button>
+              <Button style={{ backgroundColor: colors.lightGrey, borderWidth: 0, marginLeft: 15 }}>
+                <span style={{ color: colors.black, fontWeight: "bold" }}>Disapproved</span>
+                <Badge bg="light" style={{ backgroundColor: colors.white, marginLeft: 5 }}>
+                  <span style={{ color: colors.black }}>{disapproved}</span>
+                </Badge>
+              </Button>
+            </div>
+          </div>
+          <ProgressBar
+            // color={colors.main}
+            // bsPrefix="progBar"
+            style={{ width: "100%", height: 15, borderRadius: 0, marginTop: 20, " --bs-progress-bar-bg": "red" }}
+            now={(approved / (approved + disapproved)) * 100}
+          />
         </div>
-        <ProgressBar color={colors.main} style={{ width: "100%", height: 15, borderRadius: 0, marginTop: 20 }} now={60} />
-      </div>;
+      );
+    } else if (isInReview) {
+      return (
+        <div style={{ width: "100%", marginTop: 40 }}>
+          <div style={{ display: "flex", flexDirecion: "row", justifyContent: "space-between", alignItems: "center" }}>
+            <h1 style={{ fontWeight: "bold" }}>The projects is in review</h1>
+            <h4>10 / 25 reviews</h4>
+          </div>
+          <ProgressBar color={colors.main} style={{ width: "100%", height: 15, borderRadius: 0, marginTop: 20 }} now={60} />
+        </div>
+      );
     } else {
       <></>;
     }
@@ -69,15 +111,15 @@ export default function ProjectScreen({ title = "This is the project title", sub
           <p style={{ marginRight: 250, marginTop: 30, fontSize: 20, lineHeight: 1.2, color: colors.darkGrey }}>{subtitle}</p>
           {subtitle === "Subtitle" ? <p>{text}</p> : null}
           <div style={{ flexDirection: "row", display: "flex", marginTop: 50 }}>
-            <div style={{ marginRight: 15 }}>
+            <div>
               <p style={{ color: colors.darkGrey }}>Start date</p>
               <p>23 Nov 2022</p>
             </div>
-            <div style={{ marginRight: 15 }}>
+            <div style={{ marginRight: 35, marginLeft: 35 }}>
               <p style={{ color: colors.darkGrey }}>End date</p>
               <p>31 Dec 2022</p>
             </div>
-            <div style={{ marginRight: 15 }}>
+            <div>
               <p style={{ color: colors.darkGrey }}>Freelancer</p>
               <p>John Doe</p>
             </div>
