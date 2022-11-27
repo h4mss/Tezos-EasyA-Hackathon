@@ -6,8 +6,11 @@ import { ArrowBarRight } from "react-bootstrap-icons";
 export default function NavBar({ user, isLoggedIn, handleLogin, setBalanceModalVisible, handleLogout }) {
   return (
     <div style={styles.container}>
-      <div>
-        <a style={{ fontWeight: 800, marginLeft: 50, textDecoration: "none", color: colors.black }} href="../App.js">
+      <div style={{ flexDirection: "row", display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <div style={styles.logo}>
+          <p style={{ fontWeight: "bold", lineHeight: 0.1 }}>U</p>
+        </div>
+        <a style={{ fontWeight: 800, marginLeft: 5, textDecoration: "none", color: colors.black }} href="../App.js">
           Unbia5
         </a>
         <text style={{ marginLeft: 12 }}>{user.type}</text>
@@ -46,6 +49,15 @@ const styles = {
     display: "flex",
     marginTop: 30,
     paddingRight: 5,
+  },
+  logo: {
+    backgroundColor: colors.main,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    display: "flex",
+    padding: 5,
+    marginLeft: 5,
   },
   wallet: {
     backgroundColor: colors.main,
