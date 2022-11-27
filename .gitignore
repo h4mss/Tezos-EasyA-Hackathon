@@ -1,6 +1,10 @@
 /.vscode
 /node_modules
 
+# ligo-related
+*.ligoproject
+.ligo-work
+
 # Logs
 *.log
 
