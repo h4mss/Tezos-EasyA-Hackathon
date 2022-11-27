@@ -39,11 +39,11 @@ export default function ProjectCardScroll({ title = "Project Title", subtitle = 
   else
     return (
       <>
-        <text style={{ fontSize: 45, fontWeight: fonts.Regular }}>
+        <p style={{ fontSize: 45, fontWeight: fonts.Regular }}>
           You don’t have any live
           <br />
           contracts at the moment.
-        </text>
+        </p>
         <button style={styles.mainBtn} onClick={() => setScreenName("Create")}>
           <p style={styles.btnText}>Create a contract</p>
         </button>

@@ -22,11 +22,11 @@ export default function ProjectsScreen() {
     >
       {user.type !== "Reviewer" ? (
         <div style={{ marginTop: 100 }}>
-          <text style={{ fontSize: 45, fontWeight: fonts.Regular }}>
+          <p style={{ fontSize: 45, fontWeight: fonts.Regular }}>
             You don’t have any live
             <br />
             contracts at the moment.
-          </text>
+          </p>
           <button style={styles.mainBtn} onClick={() => setScreenName("Create")}>
             <p style={styles.btnText}>Create a contract</p>
           </button>
