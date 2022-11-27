@@ -108,15 +108,15 @@ export default function ProjectScreen({ title = "This is the project title", sub
           <p style={{ marginRight: 250, marginTop: 30, fontSize: 20, lineHeight: 1.2, color: colors.darkGrey }}>{subtitle}</p>
           {subtitle === "Subtitle" ? <p>{text}</p> : null}
           <div style={{ flexDirection: "row", display: "flex", marginTop: 50 }}>
-            <div style={{ marginRight: 15 }}>
+            <div>
               <p style={{ color: colors.darkGrey }}>Start date</p>
               <p>23 Nov 2022</p>
             </div>
-            <div style={{ marginRight: 15 }}>
+            <div style={{ marginRight: 35, marginLeft: 35 }}>
               <p style={{ color: colors.darkGrey }}>End date</p>
               <p>31 Dec 2022</p>
             </div>
-            <div style={{ marginRight: 15 }}>
+            <div>
               <p style={{ color: colors.darkGrey }}>Freelancer</p>
               <p>John Doe</p>
             </div>
