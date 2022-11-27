@@ -20,9 +20,8 @@ export default function CreateProjectScreen() {
         flex: 1,
       }}
     >
-      <NavBar pageTitle={"Client"} balance={2} wallet={"0xnfjrn....447"} />
-
-      <div style={styles.bodyContainer}>
+      {/* //style={styles.bodyContainer} */}
+      <div>
         <h1 style={{ fontWeight: fonts.Bold, marginTop: 70 }}>New project</h1>
         <div style={{ marginTop: 70 }}>
           {/* <h3>Project name</h3>
