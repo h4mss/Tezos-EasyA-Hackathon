@@ -48,7 +48,9 @@ let complete_review(store, id, reviewer : storage * nat * address) : operation l
         let minority_num : nat = if consensus then num_rev + job.ok else job.ok in
         failwith ""
         else [], store
+    | None-> failwith ""
   )
+  | None -> failwith ""
 
 
 

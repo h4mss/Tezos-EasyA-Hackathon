@@ -101,7 +101,7 @@ let assign_reviewer(store, id, reviewer : storage * nat * address) : operation l
       then failwith "reviewer insufficient funds for deposit"
       else let new_reviewers = Big_map.update reviewer (bal - review_deposit) reviewers in
       let new_job_reviewers = Map.update reviewer (Some Undecided) job.reviewers in
-      let new_jobs = Big_map.update id { job with reviewers = new_job_reviewers; balance = job.balance + review_deposit } in
+      let new_jobs = Big_map.update id (Some { job with reviewers = new_job_reviewers; balance = job.balance + review_deposit }) jobs in
       [], { store with reviewers = new_reviewers; jobs = new_jobs }
     | None -> failwith "not a registered reviewer"
   )
@@ -109,14 +109,15 @@ let assign_reviewer(store, id, reviewer : storage * nat * address) : operation l
 
 let vote_job(store, id, vote : storage * nat * bool) : operation list * storage =
   let jobs = store.jobs in
+  let reviewer = Tezos.get_sender() in
   match (Big_map.find_opt id jobs) with
   | Some job -> (
     let reviewers = job.reviewers in
     match (Map.find_opt reviewer reviewers) with
     | Some _ -> let new_job_reviewers = 
       Map.update reviewer (Some (if vote then Yes else No)) reviewers in
-    let new_jobs = Big_map.update id { job with reviewers = new_job_reviewers; 
-    ok = (if vote then job.ok + 1 else job.ok) } jobs in
+    let new_jobs = Big_map.update id (Some { job with reviewers = new_job_reviewers; 
+    ok = (if vote then job.ok + 1n else job.ok) }) jobs in
     [], { store with jobs = new_jobs }
     | None -> failwith "reviewer not reviewing for this job"
   )
@@ -126,17 +127,18 @@ let claim_complete(store, id : storage * nat) : operation list * storage =
   let jobs = store.jobs in
   match (Big_map.find_opt id jobs) with
   | Some job -> if job.freelancer = Tezos.get_sender() 
-  then let new_jobs = Big_map.update id {job with finished = True} in
-  [], {store with jobs = new_jobs}
+  then let new_jobs = (Big_map.update id (Some {job with finished = True}) jobs) in
+  [], {store with jobs = (new_jobs)}
   else failwith "not the freelancer of the job"
   | None -> failwith "no such job"
 
 let accept_or_dispute(store, id, accepted : storage * nat * bool) : operation list * storage =
   let jobs = store.jobs in
   match (Big_map.find_opt id jobs) with
-  | Some job -> if job.client = Tezos.get_sender() && job.finished = true
-  then let new_jobs = Big_map.update id {job with accepted = accepted} jobs in
+  | Some job -> if (job.client = Tezos.get_sender() && job.finished = true)
+  then let new_jobs = Big_map.update id (Some {job with accepted = accepted}) jobs in
   [], {store with jobs = new_jobs}
+  else [], store
   | None -> failwith "no such job"
 
 // cancel and remove job. refund client (and freelancer)
@@ -144,7 +146,7 @@ let remove_job(store, id : storage * nat) : operation list * storage =
   let jobs = store.jobs in 
   let operations = cancel_job(store, id) in
   match (Big_map.find_opt id jobs) with
-  | Some job -> let new_jobs = Big_map.remove id jobs in
+  | Some job -> let new_jobs = (Big_map.remove id jobs) in
   [], { store with jobs = new_jobs }
   | None -> failwith "Job does not exist"
 
