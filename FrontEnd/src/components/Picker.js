@@ -3,15 +3,9 @@ import ListGroup from "react-bootstrap/ListGroup";
 import colors from "../constants/colors";
 import fonts from "../constants/fonts";
 import { NavContext } from "../context";
-// import { Navigate } from "react-router-dom";
 
 export default function Picker({ handleLogin }) {
   const { setScreenName, user, setUser } = useContext(NavContext);
-  const handleClick = (entity) => {
-    setScreenName("Projects");
-    setUser({ ...user, type: entity }); // set user type
-    // window.open("../screens/ProjectsScreen.tsx");
-  };
   return (
     <ListGroup as="ul">
       <ListGroup.Item style={styles.card} action onClick={() => handleLogin("Client")}>

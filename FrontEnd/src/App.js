@@ -79,6 +79,51 @@ function App() {
     }
   };
 
+  // handle logout
+  const handleLogout = () => {
+    setUser({
+      type: null,
+      wallet: {
+        address: null,
+        balance: null,
+      },
+    });
+    setIsLoggedIn(false);
+    setScreenName("Main");
+  };
+
+  // handle join project
+  const handleJoinProject = async (projectAddress) => {
+    const contract = await taquito.wallet.at(projectAddress);
+    const op = await contract.methods.join().send();
+    await op.confirmation();
+    const accountBalance = await taquito.tz.getBalance(user.wallet.address);
+    setUser({
+      ...user,
+      wallet: {
+        ...user.wallet,
+        balance: accountBalance.toNumber(),
+      },
+    });
+    setScreenName("Projects");
+  };
+
+  // handle create project
+  const handleCreateProject = async (projectName, projectDescription) => {
+    const contract = await taquito.wallet.at("KT1Hg8v3P4GFgXB4bpu6hCsGKvFCvV5rPfHd");
+    const op = await contract.methods.create(projectName, projectDescription).send();
+    await op.confirmation();
+    setScreenName("Projects");
+  };
+
+  // handle review project
+  const handleReviewProject = async (projectAddress, review) => {
+    const contract = await taquito.wallet.at(projectAddress);
+    const op = await contract.methods.review(review).send();
+    await op.confirmation();
+    setScreenName("Projects");
+  };
+
   return (
     <div
       className="App"
@@ -90,7 +135,7 @@ function App() {
         flex: 1,
       }}
     >
-      <NavBar user={user} isLoggedIn={isLoggedIn} balance={2} wallet={"0xnfjrn....447"} handleLogin={handleLogin} />
+      <NavBar user={user} isLoggedIn={isLoggedIn} balance={2} wallet={"0xnfjrn....447"} handleLogin={handleLogin} handleLogout={handleLogout} />
       <NavContext.Provider value={{ screenName, setScreenName, user, setUser }}>
         {screenName === "Main" ? <MainScreen handleLogin={handleLogin} /> : null}
         {screenName === "Projects" ? <ProjectsScreen /> : null}
