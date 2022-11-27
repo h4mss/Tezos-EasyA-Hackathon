@@ -1,12 +1,19 @@
 type job_id = nat
 
+type vote =
+    Yes |
+    No |
+    Undecided
+
 type job = {
     client : address;
     freelancer: address;
-    finished : bool;
     deadline : timestamp;
+    started : bool;
+    finished : bool;
     accepted : bool;
-    reviewers : ( address, bool ) map;
+    in_review : bool;
+    reviewers : ( address, vote ) map;
     ok : nat;
     price : tez;
     balance : tez;
