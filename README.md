@@ -1,6 +1,5 @@
 # Tezos-EasyA-Hackathon
 
-
 ## Deploying Smart Contract on Ghostnet
 
 <b>Enter these commands in the terminal:</b>
