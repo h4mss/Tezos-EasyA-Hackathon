@@ -1,29 +1,34 @@
 import React from "react";
+import Button from "react-bootstrap/Button";
 import colors from "../constants/colors";
-export default function NavBar({ pageTitle = "Page title", balance = 0, wallet = false }) {
-  // const { setScreenName } = useContext(NavContext);
+
+export default function NavBar({ user, isLoggedIn, handleLogin }) {
   return (
     <div style={styles.container}>
       <div>
         <a style={{ fontWeight: 800, marginLeft: 50, textDecoration: "none", color: colors.black }} href="../App.js">
           Unbia5
         </a>
-        <text style={{ marginLeft: 12 }}>{pageTitle}</text>
+        <text style={{ marginLeft: 12 }}>{user.type}</text>
       </div>
-      {wallet ? (
+      {isLoggedIn ? (
         <div style={{ flexDirection: "row", display: "flex", alignItems: "center" }}>
           <div style={styles.wallet}>
-            <text style={{ color: colors.white }}>{wallet}</text>
+            <text style={{ color: colors.white }}>{user.wallet.address}</text>
             <div style={{ flexDirection: "row", display: "flex", marginLeft: 50, alignItems: "center" }}>
               <text style={{ color: colors.white }}>Balance:</text>
               <div style={styles.balance}>
-                <text style={{ color: colors.main }}>{balance}</text>
+                <text style={{ color: colors.main }}>{user.wallet.balance}</text>
               </div>
             </div>
           </div>
           {/* <ArrowBarRight color={colors.main} size={25} onClick={() => setScreenName("Main")} /> */}
         </div>
-      ) : null}
+      ) : (
+        <Button style={{ backgroundColor: colors.main, borderWidth: 0 }} onClick={handleLogin}>
+          Log in
+        </Button>
+      )}
     </div>
   );
 }

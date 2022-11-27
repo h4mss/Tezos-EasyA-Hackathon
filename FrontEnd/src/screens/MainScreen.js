@@ -1,16 +1,14 @@
 import Picker from "../components/Picker.js";
 import fonts from "../constants/fonts";
 
-export default function MainScreen() {
+export default function MainScreen({ handleLogin }) {
   return (
     <div
-      className="body"
       style={{
         padding: 20,
         flex: 1,
         flexDirection: "row",
         display: "flex",
-
         justifyContent: "space-around",
         alignItems: "center",
         width: "100%",
@@ -19,10 +17,10 @@ export default function MainScreen() {
       <text style={{ fontSize: 45, fontWeight: fonts.Regular }}>
         Welcome.
         <br />
-        Choose who to log in as:
+        Choose whom to log in as:
       </text>
       <div>
-        <Picker />
+        <Picker handleLogin={handleLogin} />
       </div>
     </div>
   );

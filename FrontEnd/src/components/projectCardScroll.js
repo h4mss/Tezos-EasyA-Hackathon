@@ -4,7 +4,7 @@ import fonts from "../constants/fonts";
 import { NavContext } from "../context";
 import ProjectCard from "./projectCard";
 export default function ProjectCardScroll({ title = "Project Title", subtitle = "Subtitle", text = "No description", style }) {
-  const { setScreenName, setUser } = useContext(NavContext);
+  const { setScreenName } = useContext(NavContext);
   let projects = [
     {
       title: "Project 1",

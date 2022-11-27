@@ -5,23 +5,23 @@ import fonts from "../constants/fonts";
 import { NavContext } from "../context";
 // import { Navigate } from "react-router-dom";
 
-export default function Picker({ screen = "2" }) {
-  const { setScreenName, setUser } = useContext(NavContext);
+export default function Picker({ handleLogin }) {
+  const { setScreenName, user, setUser } = useContext(NavContext);
   const handleClick = (entity) => {
     setScreenName("Projects");
-    setUser(entity);
+    setUser({ ...user, type: entity }); // set user type
     // window.open("../screens/ProjectsScreen.tsx");
   };
   return (
     <ListGroup as="ul">
-      <ListGroup.Item style={styles.card} action onClick={() => handleClick("Client")}>
+      <ListGroup.Item style={styles.card} action onClick={() => handleLogin("Client")}>
         <text style={{ fontWeight: fonts.Bold, color: colors.main }}>Client</text>
       </ListGroup.Item>
-      <ListGroup.Item style={styles.card} action onClick={() => handleClick("Freelancer")}>
+      <ListGroup.Item style={styles.card} action onClick={() => handleLogin("Freelancer")}>
         <p style={{ fontWeight: fonts.Bold, color: colors.main }}>Freelancer</p>
       </ListGroup.Item>
 
-      <ListGroup.Item style={styles.card} action onClick={() => handleClick("Client")}>
+      <ListGroup.Item style={styles.card} action onClick={() => handleLogin("Reviewer")}>
         <p style={{ fontWeight: fonts.Bold, color: colors.main }}>Rewiever</p>
       </ListGroup.Item>
     </ListGroup>
