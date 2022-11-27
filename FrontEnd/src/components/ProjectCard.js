@@ -7,7 +7,7 @@ export default function ProjectCard({ project, style }) {
     <Card onClick={() => [setProject(project), setScreenName("Project")]} style={{ ...styles.container, ...style }}>
       <Card.Body>
         <Card.Title>{project.name}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">{project.name}</Card.Subtitle>
+        <Card.Subtitle className="mb-2 text-muted">Subtitle</Card.Subtitle>
         <Card.Text>{project.description}</Card.Text>
       </Card.Body>
     </Card>

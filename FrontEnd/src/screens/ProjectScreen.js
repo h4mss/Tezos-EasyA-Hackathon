@@ -11,11 +11,11 @@ import ListGroup from "react-bootstrap/ListGroup";
 import ProgressBar from "react-bootstrap/ProgressBar";
 
 import { NavContext } from "../context";
-export default function ProjectScreen({ project }) {
+export default function ProjectScreen({ project, reviewProject }) {
   const { user } = useContext(NavContext);
-  const [isReviewing, setIsReviewing] = useState(false);
+  const [isReviewing, setIsReviewing] = useState(project.reviewers.includes(user.wallet.address));
   const [isInReview, setIsInReview] = useState(project.is_in_review);
-  const [isReviewComplete, setIsReviewComplete] = useState(true);
+  const [isReviewComplete, setIsReviewComplete] = useState(project.finished);
   const approved = project.ok;
   const disapproved = project.not_ok;
 

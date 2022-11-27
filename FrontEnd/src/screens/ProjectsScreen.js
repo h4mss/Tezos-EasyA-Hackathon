@@ -33,6 +33,7 @@ export default function ProjectsScreen() {
         </div>
       ) : null}
       {user.type === "Reviewer" && ProjectCardScroll({ title: "Projects to review", subtitle: "Subtitle", description: "No description" })}
+      {user.type === "Client" && ProjectCardScroll({ title: "Live projects", subtitle: "Subtitle", description: "No description" })}
 
       {ProjectCardScroll({ title: "Previous projects", subtitle: "Subtitle", description: "No description" })}
     </div>
