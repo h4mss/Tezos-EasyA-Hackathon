@@ -6,7 +6,7 @@ import "./App.css";
 import BalanceModal from "./components/BalanceModal";
 import NavBar from "./components/NavBar.js";
 import { NavContext } from "./context";
-import CreateProjectScreen from "./screens/CreateProjectScreen.tsx";
+import CreateProjectScreen from "./screens/CreateProjectScreen.js";
 import MainScreen from "./screens/MainScreen.js";
 import ProjectScreen from "./screens/ProjectScreen.js";
 import ProjectsScreen from "./screens/ProjectsScreen.js";
