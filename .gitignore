@@ -3,6 +3,7 @@
 
 # ligo-related
 *.ligoproject
+*.tz
 .ligo-work
 
 # Logs

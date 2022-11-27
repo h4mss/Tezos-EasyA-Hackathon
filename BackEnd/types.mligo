@@ -6,8 +6,8 @@ type job = {
     finished : bool;
     deadline : timestamp;
     accepted : bool;
+    reviewers : ( address, bool ) map;
     ok : nat;
-    not_ok : nat;
     price : tez;
     balance : tez;
   }

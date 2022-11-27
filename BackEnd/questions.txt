@@ -1,6 +1,0 @@
-1. Do we need to check that the contract is always evoked by the store admin?
-    a. if so, do we assume that the store admin is evoking all transactions 
-    TRANSFER AMOUNT from CLIENT to JOB-CONTRACT with PARAMS
-    Then, how do we ensure that:
-        i) the tez came from the CLIENT
-        ii) the CLIENT is correctly indicated in the job
