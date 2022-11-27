@@ -4,18 +4,12 @@ import colors from "../constants/colors";
 import fonts from "../constants/fonts";
 
 import React, { useContext, useState } from "react";
-import ListGroup from "react-bootstrap/ListGroup";
 import { CloudDownload } from "react-bootstrap-icons";
-
+import ListGroup from "react-bootstrap/ListGroup";
 import { NavContext } from "../context";
-
 export default function ProjectScreen({ title = "This is the project title", subtitle = "Subtitle", text = "No description", style }) {
   const { user } = useContext(NavContext);
   const [isReviewing, setIsReviewing] = useState(false);
-  console.log(user);
-  const handleClick = () => {
-    console.log("hui");
-  };
   const handleBtnClick = () => {
     setIsReviewing(true);
   };
@@ -74,16 +68,12 @@ export default function ProjectScreen({ title = "This is the project title", sub
             <ListGroup.Item
               style={{ justifyContent: "space-between", display: "flex", alignItems: "center" }}
               action
-              onClick={() => handleClick("Client")}
+              // onClick={() => handleClick("Client")}
             >
               <text style={{ color: colors.black }}>Project Specification</text>
               <CloudDownload size={20} />
             </ListGroup.Item>
-            <ListGroup.Item
-              style={{ justifyContent: "space-between", display: "flex", alignItems: "center" }}
-              action
-              onClick={() => handleClick("Client")}
-            >
+            <ListGroup.Item style={{ justifyContent: "space-between", display: "flex", alignItems: "center" }} action>
               <text style={{ color: colors.black }}> Complete work</text>
               <CloudDownload size={20} />
             </ListGroup.Item>

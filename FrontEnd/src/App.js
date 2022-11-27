@@ -3,8 +3,8 @@ import { TezosToolkit } from "@taquito/taquito";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import "./App.css";
+import BalanceModal from "./components/BalanceModal";
 import NavBar from "./components/NavBar.js";
-import colors from "./constants/colors";
 import { NavContext } from "./context";
 import CreateProjectScreen from "./screens/CreateProjectScreen.tsx";
 import MainScreen from "./screens/MainScreen.js";
@@ -13,6 +13,7 @@ import ProjectsScreen from "./screens/ProjectsScreen.js";
 
 function App() {
   const [screenName, setScreenName] = useState("Main");
+  const contract = { address: "KT1Hk4JQ8" };
   const [user, setUser] = useState({
     type: null,
     wallet: {
@@ -21,6 +22,7 @@ function App() {
     },
   });
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [balanceModalVisible, setBalanceModalVisible] = useState(false);
   const taquito = new TezosToolkit("https://ghostnet.tezos.marigold.dev/");
 
   // handle login with tezos wallet
@@ -68,6 +70,7 @@ function App() {
             balance: accountBalance.toNumber(),
           },
         });
+
         setIsLoggedIn(true);
         setScreenName("Projects");
       } else {
@@ -79,7 +82,6 @@ function App() {
       }
     }
   };
-
   // handle logout
   const handleLogout = () => {
     setUser({
@@ -92,7 +94,6 @@ function App() {
     setIsLoggedIn(false);
     setScreenName("Main");
   };
-
   // handle join project
   const handleJoinProject = async (projectAddress) => {
     const contract = await taquito.wallet.at(projectAddress);
@@ -108,7 +109,6 @@ function App() {
     });
     setScreenName("Projects");
   };
-
   // handle create project
   const handleCreateProject = async (projectName, projectDescription) => {
     const contract = await taquito.wallet.at("KT1Hg8v3P4GFgXB4bpu6hCsGKvFCvV5rPfHd");
@@ -116,7 +116,6 @@ function App() {
     await op.confirmation();
     setScreenName("Projects");
   };
-
   // handle review project
   const handleReviewProject = async (projectAddress, review) => {
     const contract = await taquito.wallet.at(projectAddress);
@@ -124,27 +123,42 @@ function App() {
     await op.confirmation();
     setScreenName("Projects");
   };
+  // handle deposit
+  const handleDeposit = async (amount) => {
+    const op = await taquito.contract.transfer({ to: contract.address, amount: parseInt(amount) });
+    await op.confirmation();
+    const accountBalance = await taquito.tz.getBalance(user.wallet.address);
+    setUser({
+      ...user,
+      wallet: {
+        ...user.wallet,
+        balance: accountBalance.toNumber(),
+      },
+    });
+    setBalanceModalVisible(false);
+  };
 
   return (
-    <div
-      className="App"
-      style={{
-        backgroundColor: colors.background,
-        justifyContent: "flex-start",
-        alignItems: "center",
-        display: "flex",
-        flex: 1,
-      }}
-    >
-      <NavBar user={user} isLoggedIn={isLoggedIn} balance={2} wallet={"0xnfjrn....447"} handleLogin={handleLogin} handleLogout={handleLogout} />
-      <NavContext.Provider value={{ screenName, setScreenName, user, setUser }}>
-        {screenName === "Main" ? <MainScreen handleLogin={handleLogin} /> : null}
-        {screenName === "Projects" ? <ProjectsScreen /> : null}
-        {screenName === "Project" ? <ProjectScreen /> : null}
-        {screenName === "Create" ? <CreateProjectScreen /> : null}
-        {/* {screenName === "Review" ? <ReviewScreen /> : null} */}
-      </NavContext.Provider>
-    </div>
+    <>
+      <BalanceModal user={user} balanceModalVisible={balanceModalVisible} setBalanceModalVisible={setBalanceModalVisible} handleDeposit={handleDeposit} />
+      <div
+        className="App"
+        style={{
+          justifyContent: "flex-start",
+          alignItems: "center",
+          display: "flex",
+          flex: 1,
+        }}
+      >
+        <NavBar user={user} isLoggedIn={isLoggedIn} handleLogin={handleLogin} handleLogout={handleLogout} setBalanceModalVisible={setBalanceModalVisible} />
+        <NavContext.Provider value={{ screenName, setScreenName, user, setUser }}>
+          {screenName === "Main" ? <MainScreen handleLogin={handleLogin} /> : null}
+          {screenName === "Projects" ? <ProjectsScreen /> : null}
+          {screenName === "Project" ? <ProjectScreen /> : null}
+          {screenName === "Create" ? <CreateProjectScreen /> : null}
+        </NavContext.Provider>
+      </div>
+    </>
   );
 }
 
