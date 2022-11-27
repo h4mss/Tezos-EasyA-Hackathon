@@ -23,6 +23,27 @@ function App() {
       balance: null,
     },
   });
+  const [project, setProject] = useState({
+    id: "5f9f1b0b-8b1e-4b5e-8f9f-1b0b8b1e4b5e",
+    name: "Project 1",
+    description: "This is a description of project 1",
+    is_in_review: false,
+    ok: 0,
+    not_ok: 0,
+    client_approved: false,
+    documents: [
+      {
+        id: "5f9f1b0b-8b1e-4b5e-8f9f-1b0b8b1e4b5e",
+        name: "Document 1",
+        hash: "0x5f9f1b0b8b1e4b5e8f9f1b0b8b1e4b5e8f9f1b0b8b1e4b5e8f9f1b0b8b1e4b5e",
+      },
+      {
+        id: "5f9f1b0b-8b1e-4b5e-8f9f-1b0b8b1e4b5e",
+        name: "Document 2",
+        hash: "0x5f9f1b0b8b1e4b5e8f9f1b0b8b1e4b5e8f9f1b0b8b1e4b5e8f9f1b0b8b1e4b5e",
+      },
+    ],
+  });
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [balanceModalVisible, setBalanceModalVisible] = useState(false);
   const taquito = new TezosToolkit("https://ghostnet.tezos.marigold.dev/");
@@ -72,7 +93,11 @@ function App() {
         },
       },
     };
-    taquito.setProvider({ signer: await InMemorySigner.fromSecretKey("edskRx5k2PVyGgnKj1U1uoBkSoKxtrXBwr4cNLPvLaaSoiVji4F4QMmFSuS7LxukAqYVCbxeFTg6goA5o4Yu35zxGJE2jgPJi7") });
+    taquito.setProvider({
+      signer: await InMemorySigner.fromSecretKey(
+        "edskRx5k2PVyGgnKj1U1uoBkSoKxtrXBwr4cNLPvLaaSoiVji4F4QMmFSuS7LxukAqYVCbxeFTg6goA5o4Yu35zxGJE2jgPJi7"
+      ),
+    });
     const wallet = new BeaconWallet(options);
     if (wallet.client) {
       taquito.setWalletProvider(wallet);
@@ -181,7 +206,12 @@ function App() {
 
   return (
     <>
-      <BalanceModal user={user} balanceModalVisible={balanceModalVisible} setBalanceModalVisible={setBalanceModalVisible} handleDeposit={handleDeposit} />
+      <BalanceModal
+        user={user}
+        balanceModalVisible={balanceModalVisible}
+        setBalanceModalVisible={setBalanceModalVisible}
+        handleDeposit={handleDeposit}
+      />
       <div
         className="App"
         style={{
@@ -191,11 +221,17 @@ function App() {
           flex: 1,
         }}
       >
-        <NavBar user={user} isLoggedIn={isLoggedIn} handleLogin={handleLogin} handleLogout={handleLogout} setBalanceModalVisible={setBalanceModalVisible} />
-        <NavContext.Provider value={{ screenName, setScreenName, user, setUser }}>
+        <NavBar
+          user={user}
+          isLoggedIn={isLoggedIn}
+          handleLogin={handleLogin}
+          handleLogout={handleLogout}
+          setBalanceModalVisible={setBalanceModalVisible}
+        />
+        <NavContext.Provider value={{ screenName, setScreenName, user, setUser, project, setProject }}>
           {screenName === "Main" ? <MainScreen handleLogin={handleLogin} /> : null}
           {screenName === "Projects" ? <ProjectsScreen /> : null}
-          {screenName === "Project" ? <ProjectScreen reviewProject={reviewProject} /> : null}
+          {screenName === "Project" ? <ProjectScreen project={project} reviewProject={reviewProject} /> : null}
           {screenName === "Create" ? <CreateProjectScreen createProject={createProject} /> : null}
         </NavContext.Provider>
       </div>

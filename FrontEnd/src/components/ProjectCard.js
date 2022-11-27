@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
 import Card from "react-bootstrap/Card";
 import { NavContext } from "../context";
-export default function ProjectCard({ title = "Project Title", subtitle = "Subtitle", text = "No description", style }) {
-  const { setScreenName } = useContext(NavContext);
+export default function ProjectCard({ project, style }) {
+  const { setScreenName, setProject } = useContext(NavContext);
   return (
-    <Card onClick={() => [setScreenName("Project")]} style={{ ...styles.container, ...style }}>
+    <Card onClick={() => [setProject(project), setScreenName("Project")]} style={{ ...styles.container, ...style }}>
       <Card.Body>
-        <Card.Title>{title}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">{subtitle}</Card.Subtitle>
-        <Card.Text>{text}</Card.Text>
+        <Card.Title>{project.name}</Card.Title>
+        <Card.Subtitle className="mb-2 text-muted">{project.name}</Card.Subtitle>
+        <Card.Text>{project.description}</Card.Text>
       </Card.Body>
     </Card>
   );
