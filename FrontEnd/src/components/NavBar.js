@@ -26,9 +26,7 @@ export default function NavBar({ user, isLoggedIn, handleLogin, setBalanceModalV
           <ArrowBarRight color={colors.main} size={25} onClick={handleLogout} />
         </div>
       ) : (
-        <Button style={{ backgroundColor: colors.main, borderWidth: 0 }} onClick={handleLogin}>
-          Log in
-        </Button>
+        <></>
       )}
     </div>
   );
