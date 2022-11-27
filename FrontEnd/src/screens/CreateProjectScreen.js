@@ -5,7 +5,7 @@ import colors from "../constants/colors";
 import fonts from "../constants/fonts";
 import { NavContext } from "../context.js";
 
-export default function CreateProjectScreen({ contractAddress, taquito, contract, user, createProject, getContractStorage }) {
+export default function CreateProjectScreen({ createProject }) {
   const { setScreenName } = useContext(NavContext);
 
   const handleCreateProject = async () => {

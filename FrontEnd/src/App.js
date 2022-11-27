@@ -196,9 +196,7 @@ function App() {
           {screenName === "Main" ? <MainScreen handleLogin={handleLogin} /> : null}
           {screenName === "Projects" ? <ProjectsScreen /> : null}
           {screenName === "Project" ? <ProjectScreen /> : null}
-          {screenName === "Create" ? (
-            <CreateProjectScreen contractAddress={contractAddress} contract={contract} createProject={createProject} taquito={taquito} getContractStorage={getContractStorage} />
-          ) : null}
+          {screenName === "Create" ? <CreateProjectScreen createProject={createProject} /> : null}
         </NavContext.Provider>
       </div>
     </>
