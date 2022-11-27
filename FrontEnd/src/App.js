@@ -26,7 +26,8 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [balanceModalVisible, setBalanceModalVisible] = useState(false);
   const taquito = new TezosToolkit("https://ghostnet.tezos.marigold.dev/");
-  const getContractStorage = async () => {
+
+  const getContractStorage = async (contractAddress) => {
     const contract = await taquito.contract.at(contractAddress);
     const storage = await contract.storage();
     console.log(storage);
@@ -103,18 +104,22 @@ function App() {
   };
   // handle add client to contract
   const addUserToContract = async (type, contractAddress, userAddress) => {
-    const contract = await getContract(contractAddress);
-    let op = null;
-    if (type === "Client") {
-      op = await contract.methods.addClient(userAddress).send();
-    } else if (type === "Freelancer") {
-      op = await contract.methods.addFreelancer(userAddress).send();
-    } else if (type === "Reviewer") {
-      op = await contract.methods.addReviewer(userAddress).send();
+    try {
+      const contract = await getContract(contractAddress);
+      let op = null;
+      if (type === "Client") {
+        op = await contract.methods.addClient(userAddress).send();
+      } else if (type === "Freelancer") {
+        op = await contract.methods.addFreelancer(userAddress).send();
+      } else if (type === "Reviewer") {
+        op = await contract.methods.addReviewer(userAddress).send();
+      }
+      await op.confirmation();
+      console.log("user added to contract", op.hash);
+      console.log("Operation injected: https://better-call.dev/ghostnet/" + op.hash);
+    } catch (error) {
+      console.log(error);
     }
-    await op.confirmation();
-    console.log("user added to contract", op.hash);
-    console.log("Operation injected: https://better-call.dev/ghostnet/" + op.hash);
   };
 
   // handle logout
@@ -145,9 +150,10 @@ function App() {
     setScreenName("Projects");
   };
 
-  const createProject = async (projectName, projectDescription) => {
+  const createProject = async () => {
+    const id = Math.floor(Math.random() * 10000) + 1;
     const contract = await getContract(contractAddress);
-    const op = await contract.methods.create(projectName, projectDescription).send();
+    const op = await contract.methods.createJob(1, { client: user.wallet.address }).send();
     await op.confirmation();
     setScreenName("Projects");
   };
@@ -190,7 +196,9 @@ function App() {
           {screenName === "Main" ? <MainScreen handleLogin={handleLogin} /> : null}
           {screenName === "Projects" ? <ProjectsScreen /> : null}
           {screenName === "Project" ? <ProjectScreen /> : null}
-          {screenName === "Create" ? <CreateProjectScreen /> : null}
+          {screenName === "Create" ? (
+            <CreateProjectScreen contractAddress={contractAddress} contract={contract} createProject={createProject} taquito={taquito} getContractStorage={getContractStorage} />
+          ) : null}
         </NavContext.Provider>
       </div>
     </>

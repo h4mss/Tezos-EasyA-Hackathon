@@ -5,8 +5,12 @@ import colors from "../constants/colors";
 import fonts from "../constants/fonts";
 import { NavContext } from "../context.js";
 
-export default function CreateProjectScreen() {
+export default function CreateProjectScreen({ contractAddress, taquito, contract, user, createProject, getContractStorage }) {
   const { setScreenName } = useContext(NavContext);
+
+  const handleCreateProject = async () => {
+    await createProject();
+  };
   return (
     <div
       className="App"
@@ -48,7 +52,7 @@ export default function CreateProjectScreen() {
               <Form.Control size="lg" type="email" placeholder="Placeholder" />
             </Form.Group>
           </Form>
-          <button style={styles.mainBtn} onClick={() => setScreenName("Projects")}>
+          <button style={styles.mainBtn} onClick={() => handleCreateProject()}>
             <p style={styles.btnText}>Create a contract</p>
           </button>
         </div>
