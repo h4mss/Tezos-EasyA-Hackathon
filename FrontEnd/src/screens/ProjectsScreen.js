@@ -41,7 +41,6 @@ export default function ProjectsScreen() {
 const styles = {
   mainBtn: {
     padding: 15,
-
     paddingLeft: 70,
     paddingRight: 70,
     borderRadius: 10,

@@ -160,7 +160,7 @@ function App() {
 
   const reviewProject = async (id) => {
     const contract = await taquito.wallet.at(contractAddress);
-    const op = await contract.methods.review(id).send();
+    const op = await contract.methods.reviewJob(id).send();
     await op.confirmation();
     setScreenName("Projects");
   };
@@ -195,7 +195,7 @@ function App() {
         <NavContext.Provider value={{ screenName, setScreenName, user, setUser }}>
           {screenName === "Main" ? <MainScreen handleLogin={handleLogin} /> : null}
           {screenName === "Projects" ? <ProjectsScreen /> : null}
-          {screenName === "Project" ? <ProjectScreen /> : null}
+          {screenName === "Project" ? <ProjectScreen reviewProject={reviewProject} /> : null}
           {screenName === "Create" ? <CreateProjectScreen createProject={createProject} /> : null}
         </NavContext.Provider>
       </div>

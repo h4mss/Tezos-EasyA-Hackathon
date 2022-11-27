@@ -3,15 +3,15 @@
 import colors from "../constants/colors";
 import fonts from "../constants/fonts";
 
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { CloudDownload } from "react-bootstrap-icons";
-import ListGroup from "react-bootstrap/ListGroup";
-import ProgressBar from "react-bootstrap/ProgressBar";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
+import ListGroup from "react-bootstrap/ListGroup";
+import ProgressBar from "react-bootstrap/ProgressBar";
 
 import { NavContext } from "../context";
-export default function ProjectScreen({ title = "This is the project title", subtitle = "Subtitle", text = "No description", style }) {
+export default function ProjectScreen({ reviewProject, title = "This is the project title", subtitle = "Subtitle", text = "No description", style }) {
   const { user } = useContext(NavContext);
   const [isReviewing, setIsReviewing] = useState(false);
   const [isInReview, setIsInReview] = useState(true);
@@ -26,7 +26,10 @@ export default function ProjectScreen({ title = "This is the project title", sub
       setIsReviewing(true);
     }
   };
-
+  const handleReview = async (id) => {
+    setIsReviewing(false);
+    await reviewProject(id);
+  };
   const ReviewBtn = () => {
     if (user.type === "Reviewer") {
       if (isReviewing) {
@@ -35,14 +38,14 @@ export default function ProjectScreen({ title = "This is the project title", sub
             <button style={{ ...styles.mainBtn, ...{ marginRight: 15 } }} onClick={() => handleBtnClick(true)}>
               <p style={styles.btnText}>Job complete</p>
             </button>
-            <button style={{ ...styles.mainBtn, ...{ backgroundColor: colors.darkGrey } }} onClick={() => handleBtnClick(false)}>
+            <button style={{ ...styles.mainBtn, ...{ backgroundColor: colors.darkGrey } }} onClick={() => handleReview("id")}>
               <p style={styles.btnText}>Jop incomplete</p>
             </button>
           </div>
         );
       } else {
         return (
-          <button style={styles.mainBtn} onClick={handleBtnClick}>
+          <button onClick={() => handleReview("id")} style={styles.mainBtn}>
             <p style={styles.btnText}>Review</p>
           </button>
         );
