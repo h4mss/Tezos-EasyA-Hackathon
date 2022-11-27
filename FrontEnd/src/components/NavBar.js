@@ -1,8 +1,9 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 import colors from "../constants/colors";
+import { ArrowBarRight } from "react-bootstrap-icons";
 
-export default function NavBar({ user, isLoggedIn, handleLogin }) {
+export default function NavBar({ user, isLoggedIn, handleLogin, setBalanceModalVisible, handleLogout }) {
   return (
     <div style={styles.container}>
       <div>
@@ -12,7 +13,7 @@ export default function NavBar({ user, isLoggedIn, handleLogin }) {
         <text style={{ marginLeft: 12 }}>{user.type}</text>
       </div>
       {isLoggedIn ? (
-        <div style={{ flexDirection: "row", display: "flex", alignItems: "center" }}>
+        <div onClick={() => setBalanceModalVisible(true)} style={{ flexDirection: "row", display: "flex", alignItems: "center" }}>
           <div style={styles.wallet}>
             <text style={{ color: colors.white }}>{user.wallet.address}</text>
             <div style={{ flexDirection: "row", display: "flex", marginLeft: 50, alignItems: "center" }}>
@@ -22,7 +23,7 @@ export default function NavBar({ user, isLoggedIn, handleLogin }) {
               </div>
             </div>
           </div>
-          {/* <ArrowBarRight color={colors.main} size={25} onClick={() => setScreenName("Main")} /> */}
+          <ArrowBarRight color={colors.main} size={25} onClick={handleLogout} />
         </div>
       ) : (
         <Button style={{ backgroundColor: colors.main, borderWidth: 0 }} onClick={handleLogin}>

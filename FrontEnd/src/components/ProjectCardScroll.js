@@ -2,7 +2,7 @@
 import React, { useContext } from "react";
 import fonts from "../constants/fonts";
 import { NavContext } from "../context";
-import ProjectCard from "./projectCard";
+import ProjectCard from "./ProjectCard";
 export default function ProjectCardScroll({ title = "Project Title", subtitle = "Subtitle", text = "No description", style }) {
   const { setScreenName } = useContext(NavContext);
   let projects = [
@@ -21,7 +21,7 @@ export default function ProjectCardScroll({ title = "Project Title", subtitle = 
   if (projects)
     return (
       <>
-        <h2>{title}</h2>
+        <h2 style={{ marginTop: 80, marginBottom: 45 }}>{title}</h2>
         <div style={styles.container}>
           <div style={styles.scrollContainer}>
             <ProjectCard title="Project 1" subtitle="Subtitle" text="No description" style={{ marginRight: 10, marginBottom: 10 }} />
@@ -30,8 +30,8 @@ export default function ProjectCardScroll({ title = "Project Title", subtitle = 
             <ProjectCard title="Project 4" subtitle="Subtitle" text="No description" style={{ marginRight: 10, marginBottom: 10 }} />
             <ProjectCard title="Project 5" subtitle="Subtitle" text="No description" style={{ marginRight: 10, marginBottom: 10 }} />
             <ProjectCard title="Project 6" subtitle="Subtitle" text="No description" style={{ marginRight: 10, marginBottom: 10 }} />
-            <ProjectCard title="Project 6" subtitle="Subtitle" text="No description" style={{ marginRight: 10, marginBottom: 10 }} />
-            <ProjectCard title="Project 6" subtitle="Subtitle" text="No description" style={{ marginRight: 10, marginBottom: 10 }} />
+            {/* <ProjectCard title="Project 6" subtitle="Subtitle" text="No description" style={{ marginRight: 10, marginBottom: 10 }} />
+            <ProjectCard title="Project 6" subtitle="Subtitle" text="No description" style={{ marginRight: 10, marginBottom: 10 }} /> */}
           </div>
         </div>
       </>
@@ -51,9 +51,10 @@ export default function ProjectCardScroll({ title = "Project Title", subtitle = 
     );
 }
 const styles = {
-  container: { marginBottom: 50 },
+  // container: { marginBottom: 50 },
   scrollContainer: {
     flexWrap: "wrap",
+
     width: "100%",
     height: "100%",
     display: "flex",

@@ -1,9 +1,8 @@
-import NavBar from "../components/NavBar.js";
 // import Picker from "../components/Picker.js";
 import { useContext } from "react";
+import Form from "react-bootstrap/Form";
 import colors from "../constants/colors";
 import fonts from "../constants/fonts";
-import Form from "react-bootstrap/Form";
 import { NavContext } from "../context.js";
 
 export default function CreateProjectScreen() {
@@ -13,16 +12,13 @@ export default function CreateProjectScreen() {
       className="App"
       style={{
         backgroundColor: colors.background,
-        justifyContent: "flex-start",
-        alignItems: "center",
+        alignItems: "flex-start",
         display: "flex",
-
-        flex: 1,
+        width: "80%",
       }}
     >
-      <NavBar pageTitle={"Client"} balance={2} wallet={"0xnfjrn....447"} />
-
-      <div style={styles.bodyContainer}>
+      {/* //style={styles.bodyContainer} */}
+      <div>
         <h1 style={{ fontWeight: fonts.Bold, marginTop: 70 }}>New project</h1>
         <div style={{ marginTop: 70 }}>
           {/* <h3>Project name</h3>
@@ -37,22 +33,22 @@ export default function CreateProjectScreen() {
         </button> */}
           <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label style={{ fontSize: 40, fontWeight: 50 }}>Project name</Form.Label>
+              <Form.Label style={{ fontWeight: 700 }}>Project name</Form.Label>
               <Form.Control size="lg" type="email" placeholder="Placeholder" />
             </Form.Group>
-            <Form.Group className="mb-3" style={{ marginTop: 45 }} controlId="exampleForm.ControlTextarea1">
-              <Form.Label style={{ fontSize: 40, fontWeight: 50 }}>Project descrioption</Form.Label>
+            <Form.Group className="mb-3" style={{ marginTop: 20 }} controlId="exampleForm.ControlTextarea1">
+              <Form.Label style={{ fontWeight: 700 }}>Project description</Form.Label>
               <Form.Control size="lg" as="textarea" rows={3} placeholder="Write your message here" />
             </Form.Group>
-            <Form.Group className="mb-3" style={{ marginTop: 45 }} controlId="exampleForm.ControlTextarea1">
+            <Form.Group className="mb-3" style={{ marginTop: 20 }} controlId="exampleForm.ControlTextarea1">
               <div style={{ flexDirection: "column", display: "flex" }}>
-                <Form.Label style={{ fontSize: 40, fontWeight: 50 }}>Documents</Form.Label>
-                <Form.Label style={{ color: colors.darkGrey, marginTop: -10 }}>Upload a hash string for each document</Form.Label>
+                <Form.Label style={{ fontWeight: 700 }}>Documents</Form.Label>
+                <Form.Label style={{ color: colors.darkGrey, marginTop: -6 }}>Upload a hash string for each document</Form.Label>
               </div>
-              <Form.Control size="lg" type="file" />
+              <Form.Control size="lg" type="email" placeholder="Placeholder" />
             </Form.Group>
           </Form>
-          <button style={styles.mainBtn} onClick={() => setScreenName("Main")}>
+          <button style={styles.mainBtn} onClick={() => setScreenName("Projects")}>
             <p style={styles.btnText}>Create a contract</p>
           </button>
         </div>
