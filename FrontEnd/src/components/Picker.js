@@ -8,8 +8,8 @@ export default function Picker({ handleLogin }) {
   const { setScreenName, user, setUser } = useContext(NavContext);
   return (
     <ListGroup as="ul">
-      <ListGroup.Item style={styles.card} action onClick={() => handleLogin("Client")}>
-        <text style={{ fontWeight: fonts.Bold, color: colors.main }}>Client</text>
+      <ListGroup.Item style={{ ...styles.card, ...{ backgroundColor: colors.main } }} action onClick={() => handleLogin("Client")}>
+        <text style={{ fontWeight: fonts.Bold, color: colors.white }}>Client</text>
       </ListGroup.Item>
       <ListGroup.Item style={styles.card} action onClick={() => handleLogin("Freelancer")}>
         <p style={{ fontWeight: fonts.Bold, color: colors.main }}>Freelancer</p>
@@ -31,5 +31,6 @@ const styles = {
     alignItems: "center",
     fontWidth: fonts.Bold,
     justifyContent: "center",
+    display: "flex",
   },
 };
