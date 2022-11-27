@@ -6,6 +6,7 @@ import colors from "../constants/colors.js";
 // import Picker from "../components/Picker.js";
 
 export default function ProjectsScreen() {
+  const { user } = useContext(NavContext);
   const { setScreenName } = useContext(NavContext);
   return (
     <div
@@ -19,8 +20,6 @@ export default function ProjectsScreen() {
         width: "80%",
       }}
     >
-      {/* {ProjectCardScroll({ title: "Live projects", subtitle: "Subtitle", description: "No description" })}
-       */}
       <div style={{ marginTop: 100 }}>
         <text style={{ fontSize: 45, fontWeight: fonts.Regular }}>
           You don’t have any live
@@ -31,6 +30,8 @@ export default function ProjectsScreen() {
           <p style={styles.btnText}>Create a contract</p>
         </button>
       </div>
+      {user.type === "Reviewer" && ProjectCardScroll({ title: "Projects to review", subtitle: "Subtitle", description: "No description" })}
+
       {ProjectCardScroll({ title: "Previous projects", subtitle: "Subtitle", description: "No description" })}
     </div>
   );

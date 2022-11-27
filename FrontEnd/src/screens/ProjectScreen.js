@@ -3,7 +3,7 @@
 import colors from "../constants/colors";
 import fonts from "../constants/fonts";
 
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import { CloudDownload } from "react-bootstrap-icons";
 
@@ -11,9 +11,37 @@ import { NavContext } from "../context";
 
 export default function ProjectScreen({ title = "This is the project title", subtitle = "Subtitle", text = "No description", style }) {
   const { user } = useContext(NavContext);
+  const [isReviewing, setIsReviewing] = useState(false);
   console.log(user);
   const handleClick = () => {
     console.log("hui");
+  };
+  const handleBtnClick = () => {
+    setIsReviewing(true);
+  };
+  const ReviewBtn = () => {
+    if (user.type === "Reviewer") {
+      if (isReviewing) {
+        return (
+          <div style={{ flexDirection: "row", display: "flex" }}>
+            <button style={{ ...styles.mainBtn, ...{ marginRight: 15 } }} onClick={handleBtnClick}>
+              <p style={styles.btnText}>Job complete</p>
+            </button>
+            <button style={{ ...styles.mainBtn, ...{ backgroundColor: colors.darkGrey } }} onClick={handleBtnClick}>
+              <p style={styles.btnText}>Jop incomplete</p>
+            </button>
+          </div>
+        );
+      } else {
+        return (
+          <button style={styles.mainBtn} onClick={handleBtnClick}>
+            <p style={styles.btnText}>Review</p>
+          </button>
+        );
+      }
+    } else {
+      return <></>;
+    }
   };
   // returns project title, subtitle, description, and a button to join the project
 
@@ -63,11 +91,7 @@ export default function ProjectScreen({ title = "This is the project title", sub
         </div>
       </div>
 
-      {user.type === "Reviewer" ? (
-        <button style={styles.mainBtn}>
-          <p style={styles.btnText}>Review</p>
-        </button>
-      ) : null}
+      {ReviewBtn()}
     </div>
   );
 }
