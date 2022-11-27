@@ -19,21 +19,23 @@ export default function ProjectScreen({ title = "This is the project title", sub
   const approved = 9;
   const disapproved = 2;
 
-  const handleClick = () => {
-    console.log("hui");
+  const handleBtnClick = (approve) => {
+    if (isReviewing) {
+      console.log(approve);
+    } else {
+      setIsReviewing(true);
+    }
   };
-  const handleBtnClick = () => {
-    setIsReviewing(true);
-  };
+
   const ReviewBtn = () => {
     if (user.type === "Reviewer") {
       if (isReviewing) {
         return (
           <div style={{ flexDirection: "row", display: "flex" }}>
-            <button style={{ ...styles.mainBtn, ...{ marginRight: 15 } }} onClick={handleBtnClick}>
+            <button style={{ ...styles.mainBtn, ...{ marginRight: 15 } }} onClick={() => handleBtnClick(true)}>
               <p style={styles.btnText}>Job complete</p>
             </button>
-            <button style={{ ...styles.mainBtn, ...{ backgroundColor: colors.darkGrey } }} onClick={handleBtnClick}>
+            <button style={{ ...styles.mainBtn, ...{ backgroundColor: colors.darkGrey } }} onClick={() => handleBtnClick(false)}>
               <p style={styles.btnText}>Jop incomplete</p>
             </button>
           </div>
