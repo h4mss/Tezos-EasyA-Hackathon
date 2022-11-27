@@ -2,7 +2,7 @@ export const liveProjects = [
   {
     id: "5f9f1b0b-8b1e-4b5e-8f9f-1b0b8b1e4b5e",
     name: "ML algorithm",
-    description: "This is a description of project 1",
+    description: "There are many good reasons to use the MERN Stack. For example, it allows the creation of a 3-tier architecture...",
     is_in_review: true,
     ok: 7,
     not_ok: 2,
@@ -25,7 +25,7 @@ export const liveProjects = [
   {
     id: "5f9f1b0b-8b1e-4b5e-8f9f-1b0b8b1e4b5e",
     name: "Python automatisation",
-    description: "This is a description of project 2",
+    description: "There are many good reasons to use the MERN Stack. For example, it allows the creation of a 3-tier architecture...",
     is_in_review: true,
     ok: 9,
     not_ok: 1,
@@ -48,8 +48,8 @@ export const liveProjects = [
   {
     id: "5f9f1b0b-8b1e-4b5e-8f9f-1b0b8b1e4b5e",
     name: "MERN stack project",
-    description: "This is a description of project 3",
-    is_in_review: false,
+    description: "There are many good reasons to use the MERN Stack. For example, it allows the creation of a 3-tier architecture...",
+
     ok: 8,
     not_ok: 3,
     finished: false,
@@ -71,7 +71,8 @@ export const liveProjects = [
   {
     id: "5f9f1b0b-8b1e-4b5e-8f9f-1b0b8b1e4b5e",
     name: "Crypto wallet project",
-    description: "This is a description of project 4",
+    description: "There are many good reasons to use the MERN Stack. For example, it allows the creation of a 3-tier architecture...",
+
     is_in_review: false,
     ok: 10,
     not_ok: 1,

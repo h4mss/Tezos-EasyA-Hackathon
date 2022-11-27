@@ -8,7 +8,7 @@ export default function ProjectCard({ project, style }) {
       <Card.Body>
         <Card.Title>{project.name}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">Subtitle</Card.Subtitle>
-        <Card.Text>{project.description}</Card.Text>
+        <Card.Text style={{ numberOfLines: 2 }}>{project.description}</Card.Text>
       </Card.Body>
     </Card>
   );
