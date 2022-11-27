@@ -36,6 +36,7 @@ function App() {
   const getContract = async (contractAddress) => {
     const contract = await taquito.contract.at(contractAddress);
     setContract(contract);
+    console.log(contract);
     return contract;
   };
 
@@ -128,8 +129,8 @@ function App() {
     setIsLoggedIn(false);
     setScreenName("Main");
   };
-  // handle join project
-  const handleJoinProject = async () => {
+
+  const joinProject = async () => {
     const contract = await taquito.wallet.at(contractAddress);
     const op = await contract.methods.join().send();
     await op.confirmation();
@@ -143,17 +144,17 @@ function App() {
     });
     setScreenName("Projects");
   };
-  // handle create project
-  const handleCreateProject = async (projectName, projectDescription) => {
-    const contract = await taquito.wallet.at("KT1Hg8v3P4GFgXB4bpu6hCsGKvFCvV5rPfHd");
+
+  const createProject = async (projectName, projectDescription) => {
+    const contract = await getContract(contractAddress);
     const op = await contract.methods.create(projectName, projectDescription).send();
     await op.confirmation();
     setScreenName("Projects");
   };
-  // handle review project
-  const handleReviewProject = async (review) => {
+
+  const reviewProject = async (id) => {
     const contract = await taquito.wallet.at(contractAddress);
-    const op = await contract.methods.review(review).send();
+    const op = await contract.methods.review(id).send();
     await op.confirmation();
     setScreenName("Projects");
   };

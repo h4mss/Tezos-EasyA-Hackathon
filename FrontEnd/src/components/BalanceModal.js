@@ -8,7 +8,7 @@ export default function BalanceModal({ user, balanceModalVisible, setBalanceModa
   const [amount, setAmount] = React.useState(0);
   return (
     <>
-      <Modal show={balanceModalVisible} onHide={handleClose}>
+      <Modal show={balanceModalVisible} onHide={() => handleClose()}>
         <Modal.Header closeButton>
           <Modal.Title>Balance: {user.wallet.balance}</Modal.Title>
         </Modal.Header>
@@ -24,7 +24,7 @@ export default function BalanceModal({ user, balanceModalVisible, setBalanceModa
         </Form>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={() => handleClose()}>
             Close
           </Button>
         </Modal.Footer>
