@@ -7,7 +7,7 @@ export default function NavBar({ user, isLoggedIn, handleLogin, setBalanceModalV
     <div style={styles.container}>
       <div style={{ flexDirection: "row", display: "flex", justifyContent: "center", alignItems: "center" }}>
         <div style={styles.logo}>
-          <p style={{ fontWeight: "bold", lineHeight: 0.1, color: colors.white }}>U</p>
+          <text style={{ fontWeight: "bold", lineHeight: 1, color: colors.white }}>U</text>
         </div>
         <a style={{ fontWeight: 800, marginLeft: 5, textDecoration: "none", color: colors.black }} href="../App.js">
           Unbia5
@@ -53,12 +53,14 @@ const styles = {
   },
   logo: {
     backgroundColor: colors.main,
-    borderRadius: 5,
+    borderRadius: 7,
     justifyContent: "center",
     alignItems: "center",
     display: "flex",
     padding: 5,
-    marginLeft: 5,
+    marginLeft: 10,
+    paddingRight: 7,
+    paddingLeft: 7,
   },
   wallet: {
     backgroundColor: colors.main,
