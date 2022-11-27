@@ -12,7 +12,7 @@ type parameter =
   | CreateJob of ( nat * job )
   | AcceptJob of ( nat * address )
   | ReviewerDeposit of address
-  | ReviewerWithDraw of (address * tez)
+  | ReviewerWithDraw of ( address * tez )
 
 let initial_storage : storage = {
     admin = ("tz1iJSrrZ2zTzLb6MqfyWz4pUrCuGeN1LZhz" : address);
@@ -22,7 +22,13 @@ let initial_storage : storage = {
     jobs = Big_map.empty;
   }
 
-let deposit_amount(original_price : tez) : tez = original_price / 10n
+[@inline]
+let check_admin (store : storage) : unit =
+  if store.admin = Tezos.get_sender () then unit else failwith "not admin"
+
+let init_job(new_job : job) : job =
+  { new_job with ok = 0n; not_ok = 0n; balance = 0tez; 
+  finished = False; accepted = False }
 
 let check_client(new_job : job) : bool = 
   let price = new_job.price in
@@ -45,11 +51,11 @@ let assign_freelancer(store, id, job, freelancer: storage * nat  * job * address
 let create_job(store, id, new_job : storage * nat * job) : operation list * storage =
   let jobs = store.jobs in
   match (Big_map.find_opt id jobs) with
-  | Some _ -> failwith "Job exists"
-  | None -> if check_client(new_job) 
+  | Some _ -> failwith "Job already exists"
+  | None -> if check_client(init_job(new_job)) 
     then let new_jobs = Big_map.update id (Some new_job) store.jobs in 
       [], { store with jobs = new_jobs }
-    else failwith "Insufficient funds"
+    else failwith "Insufficient funds provided"
 
 // freelancer user accepts job. ensure that freelancer has sufficient deposit.
 let accept_job(store, id, freelancer: storage * nat * address) : operation list * storage =
@@ -57,7 +63,15 @@ let accept_job(store, id, freelancer: storage * nat * address) : operation list 
   match (Big_map.find_opt id jobs) with
   | Some job -> if check_freelancer(job) 
     then [], assign_freelancer(store, id, job, freelancer) 
-    else failwith "Insufficent funds"
+    else failwith "Insufficent funds provided"
+  | None -> failwith "Job does not exist"
+
+// cancel and remove job. refund client (and freelancer)
+let remove_job(store, id : storage * nat) : operation list * storage =
+  let jobs = store.jobs in 
+  match (Big_map.find_opt id jobs) with
+  | Some job -> let new_jobs = Big_map.remove id jobs in
+  [], { store with jobs = new_jobs }
   | None -> failwith "Job does not exist"
 
 let main (param, store : parameter * storage) : operation list * storage =
