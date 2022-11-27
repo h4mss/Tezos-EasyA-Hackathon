@@ -6,10 +6,17 @@ import fonts from "../constants/fonts";
 import React, { useContext, useState } from "react";
 import { CloudDownload } from "react-bootstrap-icons";
 import ListGroup from "react-bootstrap/ListGroup";
+import ProgressBar from "react-bootstrap/ProgressBar";
+
 import { NavContext } from "../context";
 export default function ProjectScreen({ title = "This is the project title", subtitle = "Subtitle", text = "No description", style }) {
   const { user } = useContext(NavContext);
   const [isReviewing, setIsReviewing] = useState(false);
+  const [isInReview, setIsInReview] = useState(false);
+
+  const handleClick = () => {
+    console.log("hui");
+  };
   const handleBtnClick = () => {
     setIsReviewing(true);
   };
@@ -37,11 +44,25 @@ export default function ProjectScreen({ title = "This is the project title", sub
       return <></>;
     }
   };
+  const ReviewBar = () => {
+    if (isInReview) {
+      <div style={{ width: "100%", marginTop: 40 }}>
+        <div style={{ display: "flex", flexDirecion: "row", justifyContent: "space-between", alignItems: "center" }}>
+          <h1 style={{ fontWeight: "bold" }}>The projects is in review</h1>
+          <h4>10 / 25 reviews</h4>
+        </div>
+        <ProgressBar color={colors.main} style={{ width: "100%", height: 15, borderRadius: 0, marginTop: 20 }} now={60} />
+      </div>;
+    } else {
+      <></>;
+    }
+  };
   // returns project title, subtitle, description, and a button to join the project
 
   return (
     <div style={styles.container}>
-      <div style={{ display: "flex", marginTop: 100, justifyContent: "space-between", width: "100%" }}>
+      {ReviewBar()}
+      <div style={{ display: "flex", marginTop: 70, justifyContent: "space-between", width: "100%" }}>
         <div style={{ display: "flex", flex: 5, flexDirection: "column" }}>
           <h2 style={{ fontWeight: fonts.Bold }}>{title}</h2>
 

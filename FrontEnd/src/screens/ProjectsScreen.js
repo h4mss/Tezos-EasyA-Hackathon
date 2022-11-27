@@ -20,16 +20,18 @@ export default function ProjectsScreen() {
         width: "80%",
       }}
     >
-      <div style={{ marginTop: 100 }}>
-        <text style={{ fontSize: 45, fontWeight: fonts.Regular }}>
-          You don’t have any live
-          <br />
-          contracts at the moment.
-        </text>
-        <button style={styles.mainBtn} onClick={() => setScreenName("Create")}>
-          <p style={styles.btnText}>Create a contract</p>
-        </button>
-      </div>
+      {user.type !== "Reviewer" ? (
+        <div style={{ marginTop: 100 }}>
+          <text style={{ fontSize: 45, fontWeight: fonts.Regular }}>
+            You don’t have any live
+            <br />
+            contracts at the moment.
+          </text>
+          <button style={styles.mainBtn} onClick={() => setScreenName("Create")}>
+            <p style={styles.btnText}>Create a contract</p>
+          </button>
+        </div>
+      ) : null}
       {user.type === "Reviewer" && ProjectCardScroll({ title: "Projects to review", subtitle: "Subtitle", description: "No description" })}
 
       {ProjectCardScroll({ title: "Previous projects", subtitle: "Subtitle", description: "No description" })}
