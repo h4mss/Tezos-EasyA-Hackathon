@@ -10,6 +10,7 @@ import CreateProjectScreen from "./screens/CreateProjectScreen.tsx";
 import MainScreen from "./screens/MainScreen.js";
 import ProjectScreen from "./screens/ProjectScreen.js";
 import ProjectsScreen from "./screens/ProjectsScreen.js";
+
 function App() {
   const [screenName, setScreenName] = useState("Main");
   const [user, setUser] = useState({
@@ -141,6 +142,7 @@ function App() {
         {screenName === "Projects" ? <ProjectsScreen /> : null}
         {screenName === "Project" ? <ProjectScreen /> : null}
         {screenName === "Create" ? <CreateProjectScreen /> : null}
+        {/* {screenName === "Review" ? <ReviewScreen /> : null} */}
       </NavContext.Provider>
     </div>
   );

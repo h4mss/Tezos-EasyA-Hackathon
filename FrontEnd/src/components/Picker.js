@@ -16,7 +16,7 @@ export default function Picker({ handleLogin }) {
       </ListGroup.Item>
 
       <ListGroup.Item style={styles.card} action onClick={() => handleLogin("Reviewer")}>
-        <p style={{ fontWeight: fonts.Bold, color: colors.main }}>Rewiever</p>
+        <p style={{ fontWeight: fonts.Bold, color: colors.main }}>Reviewer</p>
       </ListGroup.Item>
     </ListGroup>
   );

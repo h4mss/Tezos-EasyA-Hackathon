@@ -10,6 +10,8 @@ import { CloudDownload } from "react-bootstrap-icons";
 import { NavContext } from "../context";
 
 export default function ProjectScreen({ title = "This is the project title", subtitle = "Subtitle", text = "No description", style }) {
+  const { user } = useContext(NavContext);
+  console.log(user);
   const handleClick = () => {
     console.log("hui");
   };
@@ -61,9 +63,11 @@ export default function ProjectScreen({ title = "This is the project title", sub
         </div>
       </div>
 
-      <button style={styles.mainBtn}>
-        <p style={styles.btnText}>Review</p>
-      </button>
+      {user.type === "Reviewer" ? (
+        <button style={styles.mainBtn}>
+          <p style={styles.btnText}>Review</p>
+        </button>
+      ) : null}
     </div>
   );
 }

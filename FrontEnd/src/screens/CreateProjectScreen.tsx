@@ -13,11 +13,11 @@ export default function CreateProjectScreen() {
       className="App"
       style={{
         backgroundColor: colors.background,
-        justifyContent: "flex-start",
-        alignItems: "center",
+        // justifyContent: "flex-start",
+        alignItems: "flex-start",
         display: "flex",
-
-        flex: 1,
+        width: "80%",
+        // flex: 1,
       }}
     >
       {/* //style={styles.bodyContainer} */}
@@ -46,9 +46,9 @@ export default function CreateProjectScreen() {
             <Form.Group className="mb-3" style={{ marginTop: 45 }} controlId="exampleForm.ControlTextarea1">
               <div style={{ flexDirection: "column", display: "flex" }}>
                 <Form.Label style={{ fontSize: 40, fontWeight: 50 }}>Documents</Form.Label>
-                <Form.Label style={{ color: colors.darkGrey, marginTop: -10 }}>Upload a hash string for each document</Form.Label>
+                <Form.Label style={{ color: colors.darkGrey, marginTop: -10, marginBottom: 20 }}>Upload a hash string for each document</Form.Label>
               </div>
-              <Form.Control size="lg" type="file" />
+              <Form.Control size="lg" type="email" placeholder="Placeholder" />
             </Form.Group>
           </Form>
           <button style={styles.mainBtn} onClick={() => setScreenName("Main")}>

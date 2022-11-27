@@ -1,4 +1,4 @@
-import ProjectCardScroll from "../components/projectCardScroll.js";
+import ProjectCardScroll from "../components/ProjectCardScroll.js";
 import fonts from "../constants/fonts.js";
 import { useContext } from "react";
 import { NavContext } from "../context.js";
@@ -16,12 +16,12 @@ export default function ProjectsScreen() {
         display: "flex",
         justifyContent: "space-around",
         alignItems: "flex-start",
-        width: "100%",
+        width: "80%",
       }}
     >
       {/* {ProjectCardScroll({ title: "Live projects", subtitle: "Subtitle", description: "No description" })}
        */}
-      {/* <div>
+      <div style={{ marginTop: 100 }}>
         <text style={{ fontSize: 45, fontWeight: fonts.Regular }}>
           You don’t have any live
           <br />
@@ -30,7 +30,7 @@ export default function ProjectsScreen() {
         <button style={styles.mainBtn} onClick={() => setScreenName("Create")}>
           <p style={styles.btnText}>Create a contract</p>
         </button>
-      </div> */}
+      </div>
       {ProjectCardScroll({ title: "Previous projects", subtitle: "Subtitle", description: "No description" })}
     </div>
   );
