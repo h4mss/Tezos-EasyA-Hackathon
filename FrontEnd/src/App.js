@@ -14,7 +14,7 @@ import ProjectsScreen from "./screens/ProjectsScreen.js";
 
 function App() {
   const [screenName, setScreenName] = useState("Main");
-  const contractAddress = "KT1C8BMZyVzccaasnDdQhn66VP6zJnm4HHhf";
+  const contractAddress = "KT19LrhoJUJWExVXxS7i2csauS8qj26kPZkk";
   const [contract, setContract] = useState(null);
   const [user, setUser] = useState({
     type: null,
@@ -23,9 +23,30 @@ function App() {
       balance: null,
     },
   });
+  const [project, setProject] = useState({
+    id: "5f9f1b0b-8b1e-4b5e-8f9f-1b0b8b1e4b5e",
+    name: "Project 1",
+    description: "This is a description of project 1",
+    is_in_review: false,
+    ok: 0,
+    not_ok: 0,
+    client_approved: false,
+    documents: [
+      {
+        id: "5f9f1b0b-8b1e-4b5e-8f9f-1b0b8b1e4b5e",
+        name: "Document 1",
+        hash: "0x5f9f1b0b8b1e4b5e8f9f1b0b8b1e4b5e8f9f1b0b8b1e4b5e8f9f1b0b8b1e4b5e",
+      },
+      {
+        id: "5f9f1b0b-8b1e-4b5e-8f9f-1b0b8b1e4b5e",
+        name: "Document 2",
+        hash: "0x5f9f1b0b8b1e4b5e8f9f1b0b8b1e4b5e8f9f1b0b8b1e4b5e8f9f1b0b8b1e4b5e",
+      },
+    ],
+  });
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [balanceModalVisible, setBalanceModalVisible] = useState(false);
-  const taquito = new TezosToolkit("https://ghostnet.tezos.marigold.dev/");
+  const taquito = new TezosToolkit("https://ghostnet.ecadinfra.com");
 
   const getContractStorage = async (contractAddress) => {
     const contract = await taquito.contract.at(contractAddress);
@@ -42,64 +63,56 @@ function App() {
   };
 
   // handle login with tezos wallet
+  const walletOptions = {
+    name: "MyAwesomeDapp",
+    iconUrl: "https://tezostaquito.io/img/favicon.svg",
+    preferredNetwork: "mainnet",
+    disableDefaultEvents: false,
+    appUrl: {
+      desktop: "https://tezostaquito.io",
+      mobile: "https://tezostaquito.io",
+    },
+
+    preferredNetwork: "https://ghostnet.ecadinfra.com",
+    eventHandlers: {
+      PERMISSION_REQUEST_SUCCESS: {
+        handler: async (data) => {
+          console.log("permission data:", data);
+        },
+      },
+      OPERATION_REQUEST_SUCCESS: {
+        handler: async (data) => {
+          console.log("operation data:", data);
+        },
+      },
+      OPERATION_REQUEST_ERROR: {
+        handler: async (data) => {
+          console.log("operation error:", data);
+        },
+      },
+    },
+  };
   const handleLogin = async (asType = "Client") => {
-    const options = {
-      name: "MyAwesomeDapp",
-      iconUrl: "https://tezostaquito.io/img/favicon.svg",
-      preferredNetwork: "mainnet",
-      disableDefaultEvents: false,
-      appUrl: {
-        desktop: "https://tezostaquito.io",
-        mobile: "https://tezostaquito.io",
-      },
-
-      preferredNetwork: "https://ghostnet.tezos.marigold.dev/",
-      eventHandlers: {
-        PERMISSION_REQUEST_SUCCESS: {
-          handler: async (data) => {
-            console.log("permission data:", data);
-          },
-        },
-        OPERATION_REQUEST_SUCCESS: {
-          handler: async (data) => {
-            console.log("operation data:", data);
-          },
-        },
-        OPERATION_REQUEST_ERROR: {
-          handler: async (data) => {
-            console.log("operation error:", data);
-          },
-        },
-      },
-    };
+    const wallet = new BeaconWallet(walletOptions);
+    taquito.setWalletProvider(wallet);
     taquito.setProvider({ signer: await InMemorySigner.fromSecretKey("edskRx5k2PVyGgnKj1U1uoBkSoKxtrXBwr4cNLPvLaaSoiVji4F4QMmFSuS7LxukAqYVCbxeFTg6goA5o4Yu35zxGJE2jgPJi7") });
-    const wallet = new BeaconWallet(options);
-    if (wallet.client) {
-      taquito.setWalletProvider(wallet);
-      const activeAccount = await wallet.client.getActiveAccount();
-      if (activeAccount) {
-        const accountPkh = await wallet.getPKH();
-        const accountBalance = await taquito.tz.getBalance(accountPkh);
-        setUser({
-          type: asType,
-          wallet: {
-            address: accountPkh,
-            balance: accountBalance.toNumber(),
-          },
-        });
+    const activeAccount = await wallet.client.getActiveAccount();
+    if (activeAccount) {
+      const accountPkh = await wallet.getPKH();
+      const accountBalance = await taquito.tz.getBalance(accountPkh);
+      setUser({
+        type: asType,
+        wallet: {
+          address: accountPkh,
+          balance: accountBalance.toNumber(),
+        },
+      });
 
-        setIsLoggedIn(true);
-        setScreenName("Projects");
+      setIsLoggedIn(true);
+      setScreenName("Projects");
 
-        // get contract
-        await addUserToContract(asType, contractAddress, accountPkh);
-      } else {
-        await wallet.requestPermissions({
-          network: {
-            type: "ghostnet",
-          },
-        });
-      }
+      // get contract
+      await addUserToContract(asType, contractAddress, accountPkh);
     }
   };
   // handle add client to contract
@@ -124,6 +137,9 @@ function App() {
 
   // handle logout
   const handleLogout = () => {
+    const wallet = new BeaconWallet(walletOptions);
+    wallet.clearActiveAccount();
+
     setUser({
       type: null,
       wallet: {
@@ -151,18 +167,30 @@ function App() {
   };
 
   const createProject = async () => {
-    const id = Math.floor(Math.random() * 10000) + 1;
-    const contract = await getContract(contractAddress);
-    const op = await contract.methods.createJob(1, { client: user.wallet.address }).send();
-    await op.confirmation();
-    setScreenName("Projects");
+    try {
+      taquito.setProvider({ signer: await InMemorySigner.fromSecretKey("edskRx5k2PVyGgnKj1U1uoBkSoKxtrXBwr4cNLPvLaaSoiVji4F4QMmFSuS7LxukAqYVCbxeFTg6goA5o4Yu35zxGJE2jgPJi7") });
+      const id = Math.floor(Math.random() * 10000) + 1;
+      let price = 100;
+      const contract = await getContract(contractAddress);
+
+      // send tokens, then createJob (BATCH)
+      const op = await contract.methods.createJob(1, price).send({ amount: price * 1.1 });
+      await op.confirmation();
+      setScreenName("Projects");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const reviewProject = async (id) => {
-    const contract = await taquito.wallet.at(contractAddress);
-    const op = await contract.methods.reviewJob(id).send();
-    await op.confirmation();
-    setScreenName("Projects");
+    try {
+      const contract = await taquito.wallet.at(contractAddress);
+      const op = await contract.methods.reviewJob(id).send();
+      await op.confirmation();
+      setScreenName("Projects");
+    } catch (error) {
+      console.log(error);
+    }
   };
   // handle deposit
   const handleDeposit = async (amount) => {
@@ -192,10 +220,10 @@ function App() {
         }}
       >
         <NavBar user={user} isLoggedIn={isLoggedIn} handleLogin={handleLogin} handleLogout={handleLogout} setBalanceModalVisible={setBalanceModalVisible} />
-        <NavContext.Provider value={{ screenName, setScreenName, user, setUser }}>
+        <NavContext.Provider value={{ screenName, setScreenName, user, setUser, project, setProject }}>
           {screenName === "Main" ? <MainScreen handleLogin={handleLogin} /> : null}
           {screenName === "Projects" ? <ProjectsScreen /> : null}
-          {screenName === "Project" ? <ProjectScreen reviewProject={reviewProject} /> : null}
+          {screenName === "Project" ? <ProjectScreen project={project} reviewProject={reviewProject} /> : null}
           {screenName === "Create" ? <CreateProjectScreen createProject={createProject} /> : null}
         </NavContext.Provider>
       </div>

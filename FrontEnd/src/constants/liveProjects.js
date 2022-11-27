@@ -1,11 +1,13 @@
 export const liveProjects = [
   {
     id: "5f9f1b0b-8b1e-4b5e-8f9f-1b0b8b1e4b5e",
-    name: "Project 1",
-    description: "This is a description of project 1",
-    is_in_review: false,
-    ok: 0,
-    not_ok: 0,
+    name: "ML algorithm",
+    description: "There are many good reasons to use the MERN Stack. For example, it allows the creation of a 3-tier architecture...",
+    is_in_review: true,
+    ok: 7,
+    not_ok: 2,
+    finished: false,
+    reviewers: ["tz1gkLzcuBqMuB4em68S5U2eu24P9LWFqB2s"],
     client_approved: false,
     documents: [
       {
@@ -22,11 +24,13 @@ export const liveProjects = [
   },
   {
     id: "5f9f1b0b-8b1e-4b5e-8f9f-1b0b8b1e4b5e",
-    name: "Project 2",
-    description: "This is a description of project 2",
-    is_in_review: false,
-    ok: 0,
-    not_ok: 0,
+    name: "Python automatisation",
+    description: "There are many good reasons to use the MERN Stack. For example, it allows the creation of a 3-tier architecture...",
+    is_in_review: true,
+    ok: 9,
+    not_ok: 1,
+    finished: false,
+    reviewers: ["djknjsnjk"],
     client_approved: false,
     documents: [
       {
@@ -43,11 +47,13 @@ export const liveProjects = [
   },
   {
     id: "5f9f1b0b-8b1e-4b5e-8f9f-1b0b8b1e4b5e",
-    name: "Project 3",
-    description: "This is a description of project 3",
-    is_in_review: false,
-    ok: 0,
-    not_ok: 0,
+    name: "MERN stack project",
+    description: "There are many good reasons to use the MERN Stack. For example, it allows the creation of a 3-tier architecture...",
+
+    ok: 8,
+    not_ok: 3,
+    finished: false,
+    reviewers: ["djknjsnjk"],
     client_approved: false,
     documents: [
       {
@@ -64,11 +70,14 @@ export const liveProjects = [
   },
   {
     id: "5f9f1b0b-8b1e-4b5e-8f9f-1b0b8b1e4b5e",
-    name: "Project 4",
-    description: "This is a description of project 4",
+    name: "Crypto wallet project",
+    description: "There are many good reasons to use the MERN Stack. For example, it allows the creation of a 3-tier architecture...",
+
     is_in_review: false,
-    ok: 0,
-    not_ok: 0,
+    ok: 10,
+    not_ok: 1,
+    finished: false,
+    reviewers: ["tz1gkLzcuBqMuB4em68S5U2eu24P9LWFqB2s"],
     client_approved: false,
     documents: [
       {

@@ -1,4 +1,3 @@
-import React from "react";
 import { ArrowBarRight } from "react-bootstrap-icons";
 import colors from "../constants/colors";
 
@@ -21,7 +20,7 @@ export default function NavBar({ user, isLoggedIn, handleLogin, setBalanceModalV
             <div style={{ flexDirection: "row", display: "flex", marginLeft: 50, alignItems: "center" }}>
               <text style={{ color: colors.white }}>Balance:</text>
               <div style={styles.balance}>
-                <text style={{ color: colors.main }}>{user.wallet.balance}</text>
+                <text style={{ color: colors.main }}>{user.wallet.balance / 1000000}</text>
               </div>
             </div>
           </div>

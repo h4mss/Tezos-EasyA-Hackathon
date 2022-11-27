@@ -3,8 +3,18 @@ import React, { useContext } from "react";
 import fonts from "../constants/fonts";
 import { NavContext } from "../context";
 import ProjectCard from "./ProjectCard";
+import { liveProjects } from "../constants/liveProjects";
+import { previousProjects } from "../constants/previousProjects";
+
 export default function ProjectCardScroll({ title = "Project Title", subtitle = "Subtitle", text = "No description", style }) {
   const { setScreenName } = useContext(NavContext);
+
+  const liveProjectCards = () => {
+    return liveProjects.map((item) => <ProjectCard project={item} style={{ marginRight: 10, marginBottom: 10 }} />);
+  };
+  const previousProjectsCards = () => {
+    return previousProjects.map((item) => <ProjectCard project={item} style={{ marginRight: 10, marginBottom: 10 }} />);
+  };
   let projects = [
     {
       title: "Project 1",
@@ -23,16 +33,7 @@ export default function ProjectCardScroll({ title = "Project Title", subtitle = 
       <>
         <h2 style={{ marginTop: 80, marginBottom: 45 }}>{title}</h2>
         <div style={styles.container}>
-          <div style={styles.scrollContainer}>
-            <ProjectCard title="Project 1" subtitle="Subtitle" text="No description" style={{ marginRight: 10, marginBottom: 10 }} />
-            <ProjectCard title="Project 2" subtitle="Subtitle" text="No description" style={{ marginRight: 10, marginBottom: 10 }} />
-            <ProjectCard title="Project 3" subtitle="Subtitle" text="No description" style={{ marginRight: 10, marginBottom: 10 }} />
-            <ProjectCard title="Project 4" subtitle="Subtitle" text="No description" style={{ marginRight: 10, marginBottom: 10 }} />
-            <ProjectCard title="Project 5" subtitle="Subtitle" text="No description" style={{ marginRight: 10, marginBottom: 10 }} />
-            <ProjectCard title="Project 6" subtitle="Subtitle" text="No description" style={{ marginRight: 10, marginBottom: 10 }} />
-            {/* <ProjectCard title="Project 6" subtitle="Subtitle" text="No description" style={{ marginRight: 10, marginBottom: 10 }} />
-            <ProjectCard title="Project 6" subtitle="Subtitle" text="No description" style={{ marginRight: 10, marginBottom: 10 }} /> */}
-          </div>
+          <div style={styles.scrollContainer}>{title == "Previous projects" ? previousProjectsCards() : liveProjectCards()}</div>
         </div>
       </>
     );

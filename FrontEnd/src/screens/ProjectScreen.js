@@ -11,13 +11,13 @@ import ListGroup from "react-bootstrap/ListGroup";
 import ProgressBar from "react-bootstrap/ProgressBar";
 
 import { NavContext } from "../context";
-export default function ProjectScreen({ reviewProject, title = "This is the project title", subtitle = "Subtitle", text = "No description", style }) {
+export default function ProjectScreen({ project, reviewProject }) {
   const { user } = useContext(NavContext);
-  const [isReviewing, setIsReviewing] = useState(false);
-  const [isInReview, setIsInReview] = useState(true);
-  const [isReviewComplete, setIsReviewComplete] = useState(true);
-  const approved = 9;
-  const disapproved = 2;
+  const [isReviewing, setIsReviewing] = useState(project.reviewers.includes(user.wallet.address));
+  const [isInReview, setIsInReview] = useState(project.is_in_review);
+  const [isReviewComplete, setIsReviewComplete] = useState(project.finished);
+  const approved = project.ok;
+  const disapproved = project.not_ok;
 
   const handleBtnClick = (approve) => {
     if (isReviewing) {
@@ -106,10 +106,10 @@ export default function ProjectScreen({ reviewProject, title = "This is the proj
       {ReviewBar()}
       <div style={{ display: "flex", marginTop: 70, justifyContent: "space-between", width: "100%" }}>
         <div style={{ display: "flex", flex: 5, flexDirection: "column" }}>
-          <h2 style={{ fontWeight: fonts.Bold }}>{title}</h2>
+          <h2 style={{ fontWeight: fonts.Bold }}>{project.name}</h2>
 
-          <p style={{ marginRight: 250, marginTop: 30, fontSize: 20, lineHeight: 1.2, color: colors.darkGrey }}>{subtitle}</p>
-          {subtitle === "Subtitle" ? <p>{text}</p> : null}
+          <p style={{ marginRight: 250, marginTop: 30, fontSize: 20, lineHeight: 1.2, color: colors.darkGrey }}>{project.description}</p>
+          {/* {subtitle === "Subtitle" ? <p>{project.text}</p> : null} */}
           <div style={{ flexDirection: "row", display: "flex", marginTop: 50 }}>
             <div>
               <p style={{ color: colors.darkGrey }}>Start date</p>
