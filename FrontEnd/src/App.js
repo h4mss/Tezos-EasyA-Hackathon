@@ -13,7 +13,8 @@ import ProjectsScreen from "./screens/ProjectsScreen.js";
 
 function App() {
   const [screenName, setScreenName] = useState("Main");
-  const contract = { address: "KT1Hk4JQ8" };
+  const contractAddress = "KT1Hk4J1X5Q4Z1Q1X5Q4Z1Q1X5Q4Z1Q1X5Q4Z1Q1X5Q4Z";
+  const [contract, setContract] = useState(null);
   const [user, setUser] = useState({
     type: null,
     wallet: {
@@ -24,6 +25,20 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [balanceModalVisible, setBalanceModalVisible] = useState(false);
   const taquito = new TezosToolkit("https://ghostnet.tezos.marigold.dev/");
+
+  // handle get contract info
+  const handleGetContractInfo = async () => {
+    const contract = await taquito.contract.at(contractAddress);
+    const storage = await contract.storage();
+    console.log(storage);
+  };
+
+  // get contract
+  const getContract = async () => {
+    const contract = await taquito.contract.at(contractAddress);
+    console.log(contract);
+    setContract(contract);
+  };
 
   // handle login with tezos wallet
   const handleLogin = async (asType = "Client") => {
@@ -95,8 +110,8 @@ function App() {
     setScreenName("Main");
   };
   // handle join project
-  const handleJoinProject = async (projectAddress) => {
-    const contract = await taquito.wallet.at(projectAddress);
+  const handleJoinProject = async () => {
+    const contract = await taquito.wallet.at(contractAddress);
     const op = await contract.methods.join().send();
     await op.confirmation();
     const accountBalance = await taquito.tz.getBalance(user.wallet.address);
@@ -117,15 +132,15 @@ function App() {
     setScreenName("Projects");
   };
   // handle review project
-  const handleReviewProject = async (projectAddress, review) => {
-    const contract = await taquito.wallet.at(projectAddress);
+  const handleReviewProject = async (review) => {
+    const contract = await taquito.wallet.at(contractAddress);
     const op = await contract.methods.review(review).send();
     await op.confirmation();
     setScreenName("Projects");
   };
   // handle deposit
   const handleDeposit = async (amount) => {
-    const op = await taquito.contract.transfer({ to: contract.address, amount: parseInt(amount) });
+    const op = await taquito.contract.transfer({ to: contractAddress, amount: parseInt(amount) });
     await op.confirmation();
     const accountBalance = await taquito.tz.getBalance(user.wallet.address);
     setUser({

@@ -12,11 +12,9 @@ export default function CreateProjectScreen() {
       className="App"
       style={{
         backgroundColor: colors.background,
-        // justifyContent: "flex-start",
         alignItems: "flex-start",
         display: "flex",
         width: "80%",
-        // flex: 1,
       }}
     >
       {/* //style={styles.bodyContainer} */}
@@ -50,7 +48,7 @@ export default function CreateProjectScreen() {
               <Form.Control size="lg" type="email" placeholder="Placeholder" />
             </Form.Group>
           </Form>
-          <button style={styles.mainBtn} onClick={() => setScreenName("Main")}>
+          <button style={styles.mainBtn} onClick={() => setScreenName("Projects")}>
             <p style={styles.btnText}>Create a contract</p>
           </button>
         </div>
