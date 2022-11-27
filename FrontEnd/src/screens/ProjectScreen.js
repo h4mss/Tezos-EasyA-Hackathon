@@ -7,12 +7,17 @@ import React, { useContext, useState } from "react";
 import { CloudDownload } from "react-bootstrap-icons";
 import ListGroup from "react-bootstrap/ListGroup";
 import ProgressBar from "react-bootstrap/ProgressBar";
+import Badge from "react-bootstrap/Badge";
+import Button from "react-bootstrap/Button";
 
 import { NavContext } from "../context";
 export default function ProjectScreen({ title = "This is the project title", subtitle = "Subtitle", text = "No description", style }) {
   const { user } = useContext(NavContext);
   const [isReviewing, setIsReviewing] = useState(false);
-  const [isInReview, setIsInReview] = useState(false);
+  const [isInReview, setIsInReview] = useState(true);
+  const [isReviewComplete, setIsReviewComplete] = useState(true);
+  const approved = 9;
+  const disapproved = 2;
 
   const handleClick = () => {
     console.log("hui");
@@ -45,14 +50,46 @@ export default function ProjectScreen({ title = "This is the project title", sub
     }
   };
   const ReviewBar = () => {
-    if (isInReview) {
-      <div style={{ width: "100%", marginTop: 40 }}>
-        <div style={{ display: "flex", flexDirecion: "row", justifyContent: "space-between", alignItems: "center" }}>
-          <h1 style={{ fontWeight: "bold" }}>The projects is in review</h1>
-          <h4>10 / 25 reviews</h4>
+    if (isReviewComplete) {
+      return (
+        <div style={{ width: "100%", marginTop: 40 }}>
+          <div style={{ display: "flex", flexDirecion: "row", justifyContent: "space-between", alignItems: "center" }}>
+            <h1 style={{ fontWeight: "bold" }}>
+              According to the review,<br></br> the project is <span style={{ color: colors.main }}>complete</span>.
+            </h1>
+            <div>
+              <Button style={{ backgroundColor: colors.main, borderWidth: 0, fontWeight: "bold" }}>
+                Approved
+                <Badge bg="light" style={{ backgroundColor: colors.white, marginLeft: 5 }}>
+                  <span style={{ color: colors.black }}>{approved}</span>
+                </Badge>
+              </Button>
+              <Button style={{ backgroundColor: colors.lightGrey, borderWidth: 0, marginLeft: 15 }}>
+                <span style={{ color: colors.black, fontWeight: "bold" }}>Disapproved</span>
+                <Badge bg="light" style={{ backgroundColor: colors.white, marginLeft: 5 }}>
+                  <span style={{ color: colors.black }}>{disapproved}</span>
+                </Badge>
+              </Button>
+            </div>
+          </div>
+          <ProgressBar
+            // color={colors.main}
+            // bsPrefix="progBar"
+            style={{ width: "100%", height: 15, borderRadius: 0, marginTop: 20, " --bs-progress-bar-bg": "red" }}
+            now={(approved / (approved + disapproved)) * 100}
+          />
         </div>
-        <ProgressBar color={colors.main} style={{ width: "100%", height: 15, borderRadius: 0, marginTop: 20 }} now={60} />
-      </div>;
+      );
+    } else if (isInReview) {
+      return (
+        <div style={{ width: "100%", marginTop: 40 }}>
+          <div style={{ display: "flex", flexDirecion: "row", justifyContent: "space-between", alignItems: "center" }}>
+            <h1 style={{ fontWeight: "bold" }}>The projects is in review</h1>
+            <h4>10 / 25 reviews</h4>
+          </div>
+          <ProgressBar color={colors.main} style={{ width: "100%", height: 15, borderRadius: 0, marginTop: 20 }} now={60} />
+        </div>
+      );
     } else {
       <></>;
     }
