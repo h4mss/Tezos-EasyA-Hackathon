@@ -1,4 +1,5 @@
 import { BeaconWallet } from "@taquito/beacon-wallet";
+import { InMemorySigner } from "@taquito/signer";
 import { TezosToolkit } from "@taquito/taquito";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
@@ -13,7 +14,7 @@ import ProjectsScreen from "./screens/ProjectsScreen.js";
 
 function App() {
   const [screenName, setScreenName] = useState("Main");
-  const contractAddress = "KT1Hk4J1X5Q4Z1Q1X5Q4Z1Q1X5Q4Z1Q1X5Q4Z1Q1X5Q4Z";
+  const contractAddress = "KT1C8BMZyVzccaasnDdQhn66VP6zJnm4HHhf";
   const [contract, setContract] = useState(null);
   const [user, setUser] = useState({
     type: null,
@@ -25,19 +26,17 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [balanceModalVisible, setBalanceModalVisible] = useState(false);
   const taquito = new TezosToolkit("https://ghostnet.tezos.marigold.dev/");
-
-  // handle get contract info
-  const handleGetContractInfo = async () => {
+  const getContractStorage = async () => {
     const contract = await taquito.contract.at(contractAddress);
     const storage = await contract.storage();
     console.log(storage);
+    return storage;
   };
 
-  // get contract
-  const getContract = async () => {
+  const getContract = async (contractAddress) => {
     const contract = await taquito.contract.at(contractAddress);
-    console.log(contract);
     setContract(contract);
+    return contract;
   };
 
   // handle login with tezos wallet
@@ -71,6 +70,7 @@ function App() {
         },
       },
     };
+    taquito.setProvider({ signer: await InMemorySigner.fromSecretKey("edskRx5k2PVyGgnKj1U1uoBkSoKxtrXBwr4cNLPvLaaSoiVji4F4QMmFSuS7LxukAqYVCbxeFTg6goA5o4Yu35zxGJE2jgPJi7") });
     const wallet = new BeaconWallet(options);
     if (wallet.client) {
       taquito.setWalletProvider(wallet);
@@ -88,6 +88,9 @@ function App() {
 
         setIsLoggedIn(true);
         setScreenName("Projects");
+
+        // get contract
+        await addUserToContract(asType, contractAddress, accountPkh);
       } else {
         await wallet.requestPermissions({
           network: {
@@ -97,6 +100,22 @@ function App() {
       }
     }
   };
+  // handle add client to contract
+  const addUserToContract = async (type, contractAddress, userAddress) => {
+    const contract = await getContract(contractAddress);
+    let op = null;
+    if (type === "Client") {
+      op = await contract.methods.addClient(userAddress).send();
+    } else if (type === "Freelancer") {
+      op = await contract.methods.addFreelancer(userAddress).send();
+    } else if (type === "Reviewer") {
+      op = await contract.methods.addReviewer(userAddress).send();
+    }
+    await op.confirmation();
+    console.log("user added to contract", op.hash);
+    console.log("Operation injected: https://better-call.dev/ghostnet/" + op.hash);
+  };
+
   // handle logout
   const handleLogout = () => {
     setUser({
